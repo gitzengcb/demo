@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.mapper.InterfaceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.server.pojo.Interface">
+        <id column="id" property="id" />
+        <result column="classificationid" property="classificationid" />
+        <result column="interfaceName" property="interfaceName" />
+        <result column="interfaceUrl" property="interfaceUrl" />
+        <result column="method" property="method" />
+        <result column="createtime" property="createtime" />
+        <result column="updateTime" property="updateTime" />
+        <result column="enabled" property="enabled" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, classificationid, interfaceName, interfaceUrl, method, createtime, updateTime, enabled
+    </sql>
+    <insert id="insert" parameterType="com.example.server.pojo.Interface">
+        insert into interface(classificationid,interfaceName,interfaceUrl,method,createtime)
+        values (#{classificationid},#{interfaceName},#{interfaceUrl},#{method},#{createtime})
+    </insert>
+    <update id="update" parameterType="com.example.server.pojo.Interface">
+        update interface set classificationid=#{classificationid},interfaceName=#{interfaceName},interfaceUrl=#{interfaceUrl},
+        method=#{method},updateTime=#{updateTime} where id=#{id}
+    </update>
+    <update id="delete" parameterType="com.example.server.pojo.Interface">
+        update interface set enabled=false where id=#{id}
+    </update>
+    <select id="select" parameterType="com.example.server.pojo.Interface" resultType="com.example.server.pojo.Interface">
+        select * from interface where classificationid=#{classificationid} and enabled=true
+    </select>
+
+</mapper>

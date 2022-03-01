@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.mapper.FailcaseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.server.pojo.Failcase">
+        <id column="id" property="id" />
+        <result column="caseid" property="caseid" />
+        <result column="performtasksid" property="performtasksid" />
+        <result column="sceneid" property="sceneid" />
+        <result column="errorlog" property="errorlog" />
+        <result column="createtime" property="createtime" />
+        <result column="enabled" property="enabled" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, caseid, performtasksid, sceneid, errorlog, createtime, enabled,reportid
+    </sql>
+    <insert id="insert" parameterType="com.example.server.pojo.Failcase">
+        insert into failcase (caseid, performtasksid, sceneid, errorlog, createtime,reportid)
+        values (#{caseid},#{performtasksid},#{sceneid},#{errorlog},#{createtime},#{reportid})
+    </insert>
+    <select id="selectid" parameterType="Integer" resultType="com.example.server.pojo.Failcase">
+        select * from failcase where reportid=#{id}
+    </select>
+
+</mapper>

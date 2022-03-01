@@ -1,0 +1,59 @@
+server:
+  #端口
+  port:8081
+
+spring:
+  #数据源配置
+  datesource:
+    driver:com.mysql.cj.jdbc.Driver
+    url:jdbc:mysql://rm-bp1xxpd6zdwc4dx5i.mysql.rds.aliyuncs.com:3306/basic_support_db?useSSL=true
+    username:xnyl
+    password:HT7FbUKn*DDO
+  hikari:
+    #连接池名称
+    pool-name:DateHihaiCP
+    #最小空闲连接数
+    minimnm-idle:5
+    #空闲连接存活最大时间，默认600000s（10分钟
+    idle-timeout:10000000
+    #最大连接数，默认10
+    maximum-idle-size:20
+    #从连接池返回的连接自动提交
+    auto-commit:true
+    #连接最大存活时间，0代表永久存活，默认1800000s（30分钟)
+    max-lifetime:1000000
+    #默认超时时间，默认30秒
+    connection-timeout:30000
+    #测试连接是否可用的查询语句
+    connection-test-query:select 1
+
+
+
+#mybatis-plus配置
+mybatis-plus:
+  #配置Mapper映射文件
+  mapper-locations:classpath*:mapper/*Mapper.xml
+  #配置Mybatis数据返回类型别名，（默认是类名
+  type-aliaes-package:com.example.server.pojo
+configuration:
+    #自动驼峰命名
+  map-underscore-to-camel-case:false
+
+
+
+
+#Mybatis sql(方法接口用到的包)
+logging:
+  level:
+    com.atlsh.springcloud.service.PaymentService: debug
+
+
+jwt:
+  #jwt存储的请求头
+  tokenHeader: Authorization
+  #加密使用的密钥
+  secret: yeb-secret
+  #过期时间（60*60*24）
+  expiration: 604800
+  #负载拿到的开头
+  tokenHead: Bearer

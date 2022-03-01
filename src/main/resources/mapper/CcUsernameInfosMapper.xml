@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.mapper.CcUsernameInfosMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.server.pojo.CcUsernameInfos">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="age" property="age" />
+        <result column="password" property="password" />
+        <result column="sumcount" property="sumcount" />
+        <result column="enabled" property="enabled" />
+    </resultMap>
+<!--     collection:循环数组用array，集合用list，双列结合用map
+                open：开启
+                close：结束
+                item：循环出来的值给该参数
+                separator：分割符
+ -->
+<!--    <foreach collection="array" open="id in(" close=")" item="id" separator=",">-->
+<!--        #{id}-->
+<!--    </foreach>&ndash;&gt;-->
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, age, password, sumcount, enabled
+    </sql>
+
+    <select id="userdetails" resultType="com.example.server.pojo.CcUsernameInfos" >
+        select * from userinfo
+        <where>
+            <foreach collection="id" open="id in(" close=")" item="ids" separator=",">
+                #{ids}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>

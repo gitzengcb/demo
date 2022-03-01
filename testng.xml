@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!--parallel:一个线程运行单位，thread-count：线程数量
+-->
+<suite name="SuitePrivatization" parallel="classes" thread-count="5">
+<!--  parameter:参数传递  -->
+    <parameter name="testname1" value="参数1"/>
+    <parameter name="testname2" value="参数2"/>
+<!--    preserve-order="true"-->
+    <test name="AutoTest" parallel="false">
+<!--        <packages>-->
+<!--            <package name="com.example.server.testng.demo"/>-->
+<!--        </packages>-->
+        <groups>
+<!--          exclude:排除运行的组
+              include：需要运行的组
+  -->
+            <run>
+<!--                <exclude name="broken"/>-->
+<!--                <include name="testclass"/>-->
+<!--                <include name="ss"/>-->
+            </run>
+        </groups>
+        <classes>
+<!--            <class name="com.testng.server.testcase.base.LoginTests"/>-->
+            <class name="com.example.server.testng.demo"/>
+<!--                <methods>-->
+<!--                    <include name="test04"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+            <class name="com.example.server.testng.hbostestng"/>
+        </classes>
+    </test>
+<!--    <test name="AutoTest1" preserve-order="true">-->
+<!--        <classes>-->
+<!--            <class name="com.testng.server.testcase.base.LoginTests"/>-->
+<!--            <class name="com.testng.server.testcase.base.demo"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+</suite>
+
+
+
+
+

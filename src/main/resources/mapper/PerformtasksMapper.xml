@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.mapper.PerformtasksMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.server.pojo.Performtasks">
+        <id column="id" property="id" />
+        <result column="tasksname" property="tasksname" />
+        <result column="scenegroupid" property="scenegroupid" />
+        <result column="createtime" property="createtime" />
+        <result column="updateTime" property="updateTime" />
+        <result column="enabled" property="enabled" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, tasksname, scenegroupid, createtime, updateTime, enabled
+    </sql>
+    <insert id="insert" parameterType="com.example.server.pojo.Performtasks">
+        insert into performtasks ( tasksname, scenegroupid, createtime)
+        values (#{tasksname},#{scenegroupid},#{createtime})
+    </insert>
+    <update id="update" parameterType="com.example.server.pojo.Performtasks">
+        update performtasks set tasksname=#{tasksname},scenegroupid=#{scenegroupid},updateTime=#{updateTime} where id=#{id}
+    </update>
+    <select id="select" resultType="com.example.server.pojo.Performtasks">
+        select * from performtasks where enabled=true
+    </select>
+    <delete id="delete" parameterType="com.example.server.pojo.Performtasks">
+        update performtasks set enabled=false where id=#{id}
+    </delete>
+
+</mapper>
