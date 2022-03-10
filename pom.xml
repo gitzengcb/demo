@@ -213,9 +213,9 @@
 
 	<build>
 		<plugins>
-<!--			<plugin>-->
-<!--				<groupId>org.springframework.boot</groupId>-->
-<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 <!--&lt;!&ndash;				<version>2.3.6.RELEASE</version>&ndash;&gt;-->
 <!--				<configuration>-->
 <!--					<mainClass>src/main/java/com/example/server/Applocation</mainClass>-->
@@ -228,7 +228,7 @@
 <!--						</goals>-->
 <!--					</execution>-->
 <!--				</executions>-->
-<!--			</plugin>-->
+			</plugin>
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>3.1.0</version>
