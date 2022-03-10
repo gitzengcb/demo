@@ -213,22 +213,22 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-<!--				<version>2.3.6.RELEASE</version>-->
-				<configuration>
-					<mainClass>src/main/java/com/example/server/Applocation</mainClass>
-<!--					<layout>ZIP</layout>-->
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--&lt;!&ndash;				<version>2.3.6.RELEASE</version>&ndash;&gt;-->
+<!--				<configuration>-->
+<!--					<mainClass>src/main/java/com/example/server/Applocation</mainClass>-->
+<!--&lt;!&ndash;					<layout>ZIP</layout>&ndash;&gt;-->
+<!--				</configuration>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							<goal>repackage</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>3.1.0</version>
