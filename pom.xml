@@ -219,7 +219,7 @@
 <!--				<version>2.3.6.RELEASE</version>-->
 				<configuration>
 					<mainClass>com/example/server/Applocation</mainClass>
-					<layout>ZIP</layout>
+<!--					<layout>ZIP</layout>-->
 				</configuration>
 				<executions>
 					<execution>
