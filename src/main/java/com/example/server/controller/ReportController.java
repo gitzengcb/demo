@@ -390,7 +390,7 @@ public class ReportController {
 
         date.put("reportlist", list);
 
-        return RespBean.sucess("7676", date);
+        return RespBean.sucess("hello", date);
     }
 
 
