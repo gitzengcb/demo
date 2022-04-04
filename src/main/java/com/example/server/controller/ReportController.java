@@ -50,7 +50,7 @@ public class ReportController {
 
     @Autowired
     IReportService reportService;
-//    @Autowired(required = false)
+    //    @Autowired(required = false)
 //    Report report;
     @Autowired
     ISceneclassificationService sceneclassificationService;
@@ -58,20 +58,21 @@ public class ReportController {
     ICaselistService caselistService;
     @Autowired
     IFailcaseService failcaseService;
-//执行任务
+
+    //执行任务
     @PostMapping("startcase")
     public RespBean startcase(@RequestBody Performtasks performtasks) {
         logger.error("");
         variable variablelist = new variable();
         //用例方法执行
-        if (!scenestart(performtasks,variablelist)){
+        if (!scenestart(performtasks, variablelist)) {
             return RespBean.error("执行场景不能为空");
         }
         Report report = variablelist.getReport();
 //        List<Failcase> failcaselist = variablelist.getFailcaselist();
-        System.out.println("执行用例数量总数"+ report.getBasesum());
-        System.out.println("用例成功数量总数"+ report.getSuccesssum());
-        System.out.println("用例失败数量总数"+ report.getErrorsum());
+        System.out.println("执行用例数量总数" + report.getBasesum());
+        System.out.println("用例成功数量总数" + report.getSuccesssum());
+        System.out.println("用例失败数量总数" + report.getErrorsum());
         Map<String, Object> map = new HashMap<>();
         map.put("Basesum", report.getBasesum());
         map.put("Successsum", report.getSuccesssum());
@@ -81,15 +82,50 @@ public class ReportController {
         report.setCreate_time(LocalDateTime.now().plusHours(14));//报告插入数据库
         reportService.insertreport(report);
         System.out.println(report.getId());
-        for (Failcase fail:variablelist.getFailcaselist()){
+        for (Failcase fail : variablelist.getFailcaselist()) {
             fail.setReportid(report.getId());
             failcaseService.insert(fail);
         }
         //初始化数据
         initialization(variablelist);
-        return RespBean.sucess("执行任务完成",map);
+        //发送钉钉报告
+        String str = "." + "执行用例case:" + map.get("Basesum") + "\n" + "执行通过case:" + map.get("Successsum") + "\n"
+                + "执行失败case:" + map.get("Errorsum") + "\n" + "执行成功用例名称:" + map.get("Successfullist") + "\n"
+                + "执行失败用例名称:" + map.get("Failurelist");
+        JSONObject content = new JSONObject();
+        JSONObject body = new JSONObject();
+        content.put("content", str);
+        body.put("msgtype", "text");
+        body.put("text", content);
+        DDURLPOSTCase.httpURLPOSTCase(body.toJSONString());
+        return RespBean.sucess("执行任务完成", map);
     }
-//初始化数据
+
+    //发送钉钉消息
+    private void dindinreport() {
+        //Map<String, Object> map
+//        String str = "." + "Basesum:" + map.get("Basesum") + "\n" + "Successsum:" + map.get("Successsum") + "\n"
+//                + "Errorsum:" + map.get("Errorsum")+"\n"+"Successfullist:"+map.get("Successfullist")+"\n"
+//                +"Failurelist"+map.get("Failurelist");
+        JSONObject body = new JSONObject();
+        body.put("msgtype", "text");
+        body.put("text", ".");
+
+        Response res =
+                given()
+//                        .header("Content-Type","application/json")
+                        .body(body.toJSONString())
+                        .when()
+                        .post("robot/send?access_token=e864a30490b605fed8455e45fb05aee0ed74684555c65e824253a758e82a6d2e")
+                        .then()
+//                        .body(caselist.getAsserts(),equalTo(caselist.getAssertresult()))
+                        .spec(RestAssuredUtil.getDefaultResponseSpecification())
+                        .extract()
+                        .response();
+        System.out.println(res.body().print());
+    }
+
+    //初始化数据
     private void initialization(variable variablelist) {
         variablelist.getReport().setBasesum(0);
         variablelist.getReport().setErrorsum(0);
@@ -99,16 +135,17 @@ public class ReportController {
         variablelist.setFailcaselist(new ArrayList<>());
 //        failcaselist=new ArrayList<>();
     }
-//通过请求方式(get&post)走向不同的接口api
-    private void casetest(Caselist caselist,variable variablelist) {
+
+    //通过请求方式(get&post)走向不同的接口api
+    private void casetest(Caselist caselist, variable variablelist) {
         Report report = variablelist.getReport();
         if (caselist.getFace().getMethod().equals("post")) {
-            report.setBasesum(report.getBasesum()+1);
-            Posttest(caselist,variablelist);
+            report.setBasesum(report.getBasesum() + 1);
+            Posttest(caselist, variablelist);
             System.out.println("执行post");
-        } else if (caselist.getFace().getMethod().equals("get")){
-            report.setBasesum(report.getBasesum()+1);
-            Gettest(caselist,variablelist);
+        } else if (caselist.getFace().getMethod().equals("get")) {
+            report.setBasesum(report.getBasesum() + 1);
+            Gettest(caselist, variablelist);
             System.out.println("执行get");
         } else {
             logger.error(caselist.getCaseTitle() + "请求方式只能支持post与get");
@@ -116,50 +153,50 @@ public class ReportController {
         }
     }
 
-    private void Gettest(Caselist caselist,variable variablelist) {
+    private void Gettest(Caselist caselist, variable variablelist) {
         JSONObject jsonInputParameter = variablelist.getJsonInputParameter();
         JSONObject jsonrequest = variablelist.getJsonrequest();
 
-        if (!jsonInputParameter.isEmpty()){
+        if (!jsonInputParameter.isEmpty()) {
             Set<String> set = jsonInputParameter.keySet();
-            for (String s:set){
-                jsonrequest.put(s,jsonInputParameter.get(s));
-                System.out.println("输入参数修改"+s+"...."+jsonInputParameter.get(s));
+            for (String s : set) {
+                jsonrequest.put(s, jsonInputParameter.get(s));
+                System.out.println("输入参数修改" + s + "...." + jsonInputParameter.get(s));
             }
         }
         Map<String, Object> requestmap = new HashMap<>();
-        if (!jsonrequest.isEmpty()){
-            Set<String> requestset= jsonrequest.keySet();
-            for (String r:requestset){
-                requestmap.put(r,jsonrequest.get(r));
+        if (!jsonrequest.isEmpty()) {
+            Set<String> requestset = jsonrequest.keySet();
+            for (String r : requestset) {
+                requestmap.put(r, jsonrequest.get(r));
             }
         }
-        Response response=
+        Response response =
                 given()
-                .params(requestmap)
-                .when()
-                .get(caselist.getFace().getInterfaceUrl())
-                .then()
+                        .params(requestmap)
+                        .when()
+                        .get(caselist.getFace().getInterfaceUrl())
+                        .then()
 //                .body(caselist.getAsserts(),equalTo(caselist.getAssertresult()))
-                .spec(RestAssuredUtil.getDefaultResponseSpecification())
-                .extract().response();
+                        .spec(RestAssuredUtil.getDefaultResponseSpecification())
+                        .extract().response();
 
-        responsetest(response,caselist,variablelist);
+        responsetest(response, caselist, variablelist);
     }
 
 
-    private void Posttest(Caselist caselist,variable variablelist) {
+    private void Posttest(Caselist caselist, variable variablelist) {
         JSONObject jsonInputParameter = variablelist.getJsonInputParameter();
         JSONObject jsonrequest = variablelist.getJsonrequest();
-        if (!jsonInputParameter.isEmpty()){
+        if (!jsonInputParameter.isEmpty()) {
             Set<String> set = jsonInputParameter.keySet();
-            for (String s:set){
-                jsonrequest.put(s,jsonInputParameter.get(s));
-                System.out.println("输入参数修改"+s+"...."+jsonInputParameter.get(s));
+            for (String s : set) {
+                jsonrequest.put(s, jsonInputParameter.get(s));
+                System.out.println("输入参数修改" + s + "...." + jsonInputParameter.get(s));
             }
         }
 
-        Response response=
+        Response response =
                 given()
 //                        .headers(jsonHeader)
                         .body(jsonrequest.toJSONString())
@@ -170,62 +207,63 @@ public class ReportController {
                         .spec(RestAssuredUtil.getDefaultResponseSpecification())
                         .extract()
                         .response();
-        responsetest(response,caselist,variablelist);
+        responsetest(response, caselist, variablelist);
     }
 
 
     //断言
-    private void responsetest(Response response,Caselist caselist,variable variablelist) {
+    private void responsetest(Response response, Caselist caselist, variable variablelist) {
         JsonPath path = response.body().jsonPath();
         Report report = variablelist.getReport();
         JSONObject jsonOutputParameter = variablelist.getJsonOutputParameter();
         JSONObject responsebody = variablelist.getResponsebody();
         try {
-            if (path.getInt("code")==200){
-                StringBuilder sb=new StringBuilder("");
+            if (path.getInt("code") == 200) {
+                StringBuilder sb = new StringBuilder("");
                 Object o = path.get(caselist.getAsserts());
                 sb.append(o);
                 //断言
-                if (sb.toString().equals(caselist.getAssertresult())){
-                    report.setSuccesssum(report.getSuccesssum()+1);//记case成功总数
-                    if (StringUtils.isNotEmpty(report.getSuccessfullist())){
-                        report.setSuccessfullist(report.getSuccessfullist()+","+caselist.getCaseTitle());
-                    }else {
+                if (sb.toString().equals(caselist.getAssertresult())) {
+                    report.setSuccesssum(report.getSuccesssum() + 1);//记case成功总数
+                    if (StringUtils.isNotEmpty(report.getSuccessfullist())) {
+                        report.setSuccessfullist(report.getSuccessfullist() + "," + caselist.getCaseTitle());
+                    } else {
                         report.setSuccessfullist(caselist.getCaseTitle());
                     }
 
                     //输出参数组装
-                    if (!jsonOutputParameter.isEmpty()){
+                    if (!jsonOutputParameter.isEmpty()) {
                         Set<String> set = jsonOutputParameter.keySet();
-                        for (String s:set){
-                            responsebody.put(s,path.get(jsonOutputParameter.getString(s)));
+                        for (String s : set) {
+                            responsebody.put(s, path.get(jsonOutputParameter.getString(s)));
                         }
                     }
-                }else {
-                    failcaseinsert(response.body().print(),caselist,variablelist);//把错误的返回插入库中
+                } else {
+                    failcaseinsert(response.body().print(), caselist, variablelist);//把错误的返回插入库中
                 }
-            }else {
+            } else {
 
-                failcaseinsert(response.body().print(),caselist,variablelist);//把错误的返回插入库中
+                failcaseinsert(response.body().print(), caselist, variablelist);//把错误的返回插入库中
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
-            logger.error("异常:"+e.getMessage());
-            failcaseinsert("异常捕获:"+e.getMessage(),caselist,variablelist);//把错误的返回插入库中
+            logger.error("异常:" + e.getMessage());
+            failcaseinsert("异常捕获:" + e.getMessage(), caselist, variablelist);//把错误的返回插入库中
         }
         System.out.println(responsebody);
     }
-//写入异常断言失败list
-    private void failcaseinsert(String print,Caselist caselist,variable variablelist) {
+
+    //写入异常断言失败list
+    private void failcaseinsert(String print, Caselist caselist, variable variablelist) {
         Report report = variablelist.getReport();
         Failcase failcase = variablelist.getFailcase();
         List<Failcase> failcaselist = variablelist.getFailcaselist();
-        report.setErrorsum(report.getErrorsum()+1);//记case失败总数
-        if (StringUtils.isNotEmpty(report.getFailurelist())){
-            report.setFailurelist(report.getFailurelist()+","+caselist.getCaseTitle());
-        }else {
+        report.setErrorsum(report.getErrorsum() + 1);//记case失败总数
+        if (StringUtils.isNotEmpty(report.getFailurelist())) {
+            report.setFailurelist(report.getFailurelist() + "," + caselist.getCaseTitle());
+        } else {
             report.setFailurelist(caselist.getCaseTitle());
         }
         failcase.setCaseid(caselist.getId());
@@ -233,32 +271,34 @@ public class ReportController {
         failcase.setErrorlog(print);
         failcaselist.add(failcase);
     }
-//取出入参的所有数据变量
-    private void jsonOrNull(Caselist caselist,variable variablelist) {
+
+    //取出入参的所有数据变量
+    private void jsonOrNull(Caselist caselist, variable variablelist) {
         try {
-            if (StringUtils.isNotEmpty(caselist.getCaserequest())){
+            if (StringUtils.isNotEmpty(caselist.getCaserequest())) {
                 variablelist.setJsonrequest(JSONObject.parseObject(caselist.getCaserequest()));
 //                jsonrequest = JSONObject.parseObject(caselist.getCaserequest());
             }
-            if (StringUtils.isNotEmpty(caselist.getHeader())){
+            if (StringUtils.isNotEmpty(caselist.getHeader())) {
                 variablelist.setJsonHeader(JSONObject.parseObject(caselist.getHeader()));
 //                jsonHeader = JSONObject.parseObject(caselist.getHeader());
             }
-            if (StringUtils.isNotEmpty(caselist.getInputParameter())){
+            if (StringUtils.isNotEmpty(caselist.getInputParameter())) {
                 variablelist.setJsonInputParameter(JSONObject.parseObject(caselist.getInputParameter()));
 //                jsonInputParameter = JSONObject.parseObject(caselist.getInputParameter());
             }
-            if (StringUtils.isNotEmpty(caselist.getOutputParameter())){
+            if (StringUtils.isNotEmpty(caselist.getOutputParameter())) {
                 variablelist.setJsonOutputParameter(JSONObject.parseObject(caselist.getOutputParameter()));
 //                jsonOutputParameter = JSONObject.parseObject(caselist.getOutputParameter());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            logger.error("解析参数异常"+e);
+            logger.error("解析参数异常" + e);
         }
     }
-//根据任务中场景id查询并组装用例的case
-    private boolean scenestart(Performtasks performtasks,variable variablelist) {
+
+    //根据任务中场景id查询并组装用例的case
+    private boolean scenestart(Performtasks performtasks, variable variablelist) {
 
         variablelist.getFailcase().setPerformtasksid(performtasks.getId());//添加任务id
         String scenegroupid = performtasks.getScenegroupid();
@@ -283,8 +323,8 @@ public class ReportController {
                 caselist.add(casestart);
             }
             for (Caselist cas : caselist) {
-                jsonOrNull(cas,variablelist);//把各种数据加装到各参数中
-                casetest(cas,variablelist);//执行用例
+                jsonOrNull(cas, variablelist);//把各种数据加装到各参数中
+                casetest(cas, variablelist);//执行用例
                 variablelist.setJsonrequest(new JSONObject());
                 variablelist.setJsonHeader(new JSONObject());
                 variablelist.setJsonInputParameter(new JSONObject());
@@ -300,7 +340,7 @@ public class ReportController {
         return true;
     }
 
-//    @PostMapping("/testngstart")
+    //    @PostMapping("/testngstart")
 //    public RespBean testngstart() {
 ////        String relativelyPath=System.getProperty("user.dir");
 ////        System.out.println("工程根目录:"+relativelyPath);
@@ -362,14 +402,14 @@ public class ReportController {
             Map<String, Object> maps = new HashMap<>();
             //添加解析正确&错误的用例名称
             String successfullist = report.getSuccessfullist();
-            if (successfullist!=null){
+            if (successfullist != null) {
                 String[] sp1 = successfullist.split(",");
                 for (String str1 : sp1) {
                     lis1.add(str1);
                 }
             }
             String failurelist = report.getFailurelist();
-            if (failurelist!=null){
+            if (failurelist != null) {
                 String[] sp2 = failurelist.split(",");
                 for (String str2 : sp2) {
                     lis2.add(str2);
@@ -390,7 +430,7 @@ public class ReportController {
 
         date.put("reportlist", list);
 
-        return RespBean.sucess("90909090900", date);
+        return RespBean.sucess("查询成功", date);
     }
 
 
