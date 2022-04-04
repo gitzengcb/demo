@@ -101,30 +101,6 @@ public class ReportController {
         return RespBean.sucess("执行任务完成", map);
     }
 
-    //发送钉钉消息
-    private void dindinreport() {
-        //Map<String, Object> map
-//        String str = "." + "Basesum:" + map.get("Basesum") + "\n" + "Successsum:" + map.get("Successsum") + "\n"
-//                + "Errorsum:" + map.get("Errorsum")+"\n"+"Successfullist:"+map.get("Successfullist")+"\n"
-//                +"Failurelist"+map.get("Failurelist");
-        JSONObject body = new JSONObject();
-        body.put("msgtype", "text");
-        body.put("text", ".");
-
-        Response res =
-                given()
-//                        .header("Content-Type","application/json")
-                        .body(body.toJSONString())
-                        .when()
-                        .post("robot/send?access_token=e864a30490b605fed8455e45fb05aee0ed74684555c65e824253a758e82a6d2e")
-                        .then()
-//                        .body(caselist.getAsserts(),equalTo(caselist.getAssertresult()))
-                        .spec(RestAssuredUtil.getDefaultResponseSpecification())
-                        .extract()
-                        .response();
-        System.out.println(res.body().print());
-    }
-
     //初始化数据
     private void initialization(variable variablelist) {
         variablelist.getReport().setBasesum(0);
