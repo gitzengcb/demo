@@ -63,5 +63,5 @@ testng:
 hbos:
   host: http://hbos-test.cfuture.shop/
   hostst: hbos-test.cfuture.shop
-  user: hszy
+  user: hl002
   password: 123456
