@@ -12,29 +12,31 @@
         <result column="header" property="header"/>
         <result column="asserts" property="asserts"/>
         <result column="assertresult" property="assertresult"/>
-<!--        <result column="createtime" property="createtime"/>-->
-<!--        <result column="updateTime" property="updateTime"/>-->
-<!--        <result column="enabled" property="enabled"/>-->
+        <!--        <result column="createtime" property="createtime"/>-->
+        <!--        <result column="updateTime" property="updateTime"/>-->
+        <!--        <result column="enabled" property="enabled"/>-->
         <result column="interfaceid" property="interfaceid"/>
+        <result column="asserttype" property="asserttype"/>
         <association property="face" column="interfaceid" javaType="com.example.server.pojo.Interface">
-            <id column="ids" property="id" />
-            <result column="classificationid" property="classificationid" />
-            <result column="interfaceName" property="interfaceName" />
-            <result column="interfaceUrl" property="interfaceUrl" />
-            <result column="method" property="method" />
-<!--            <result column="createtime" property="createtime" />-->
-<!--            <result column="updateTime" property="updateTime" />-->
-<!--            <result column="enabled" property="enabled" />-->
+            <id column="ids" property="id"/>
+            <result column="classificationid" property="classificationid"/>
+            <result column="interfaceName" property="interfaceName"/>
+            <result column="interfaceUrl" property="interfaceUrl"/>
+            <result column="method" property="method"/>
+            <!--            <result column="createtime" property="createtime" />-->
+            <!--            <result column="updateTime" property="updateTime" />-->
+            <!--            <result column="enabled" property="enabled" />-->
         </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, caseTitle, caserequest, inputParameter, outputParameter, header, asserts, assertresult, createtime, updateTime, enabled,interfaceid
+        id
+        , caseTitle, caserequest, inputParameter, outputParameter, header, asserts, assertresult, createtime, updateTime, enabled,interfaceid,asserttype
     </sql>
     <insert id="insert" parameterType="com.example.server.pojo.Caselist">
-        insert into caselist (caseTitle, caserequest, asserts, assertresult, createtime, interfaceid)
-        values (#{caseTitle}, #{caserequest}, #{asserts}, #{assertresult}, #{createtime}, #{interfaceid})
+        insert into caselist (caseTitle, caserequest, asserts, assertresult, createtime, interfaceid, asserttype)
+        values (#{caseTitle}, #{caserequest}, #{asserts}, #{assertresult}, #{createtime}, #{interfaceid}, #{asserttype})
     </insert>
     <update id="update" parameterType="com.example.server.pojo.Caselist">
         update caselist
@@ -46,7 +48,8 @@
             asserts=#{asserts},
             assertresult=#{assertresult},
             updateTime=#{updateTime},
-            interfaceid=#{interfaceid}
+            interfaceid=#{interfaceid},
+            asserttype=#{asserttype}
         where id = #{id}
     </update>
     <select id="select" parameterType="com.example.server.pojo.Caselist" resultType="com.example.server.pojo.Caselist">
@@ -86,6 +89,7 @@
                a.asserts,
                a.assertresult,
                a.interfaceid,
+               a.asserttype,
                b.id ids,
                b.classificationid,
                b.interfaceName,

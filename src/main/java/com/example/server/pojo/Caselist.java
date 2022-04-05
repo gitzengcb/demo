@@ -59,8 +59,14 @@ public class Caselist implements Serializable {
 
     private Boolean enabled;
     private int interfaceid;
+    private String asserttype;
 
     private Interface face;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
 
 
     public Integer getId() {
@@ -159,6 +165,14 @@ public class Caselist implements Serializable {
         this.interfaceid = interfaceid;
     }
 
+    public String getAsserttype() {
+        return asserttype;
+    }
+
+    public void setAsserttype(String asserttype) {
+        this.asserttype = asserttype;
+    }
+
     public Interface getFace() {
         return face;
     }
@@ -182,6 +196,7 @@ public class Caselist implements Serializable {
                 ", updateTime=" + updateTime +
                 ", enabled=" + enabled +
                 ", interfaceid=" + interfaceid +
+                ", asserttype='" + asserttype + '\'' +
                 ", face=" + face +
                 '}';
     }

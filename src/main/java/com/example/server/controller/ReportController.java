@@ -63,6 +63,7 @@ public class ReportController {
     @PostMapping("startcase")
     public RespBean startcase(@RequestBody Performtasks performtasks) {
         logger.error("");
+        //初始化参数
         variable variablelist = new variable();
         //用例方法执行
         if (!scenestart(performtasks, variablelist)) {
@@ -198,25 +199,112 @@ public class ReportController {
                 StringBuilder sb = new StringBuilder("");
                 Object o = path.get(caselist.getAsserts());
                 sb.append(o);
-                //断言
-                if (sb.toString().equals(caselist.getAssertresult())) {
-                    report.setSuccesssum(report.getSuccesssum() + 1);//记case成功总数
-                    if (StringUtils.isNotEmpty(report.getSuccessfullist())) {
-                        report.setSuccessfullist(report.getSuccessfullist() + "," + caselist.getCaseTitle());
-                    } else {
-                        report.setSuccessfullist(caselist.getCaseTitle());
-                    }
-
-                    //输出参数组装
-                    if (!jsonOutputParameter.isEmpty()) {
-                        Set<String> set = jsonOutputParameter.keySet();
-                        for (String s : set) {
-                            responsebody.put(s, path.get(jsonOutputParameter.getString(s)));
+                //断言开始，通过不同的断言类型区分断言
+                if (caselist.getAsserttype().equals("=")) {
+                    if (sb.toString().equals(caselist.getAssertresult())) {
+                        report.setSuccesssum(report.getSuccesssum() + 1);//记case成功总数
+                        if (StringUtils.isNotEmpty(report.getSuccessfullist())) {
+                            report.setSuccessfullist(report.getSuccessfullist() + "," + caselist.getCaseTitle());
+                        } else {
+                            report.setSuccessfullist(caselist.getCaseTitle());
                         }
+
+                        //输出参数组装
+                        if (!jsonOutputParameter.isEmpty()) {
+                            Set<String> set = jsonOutputParameter.keySet();
+                            for (String s : set) {
+                                responsebody.put(s, path.get(jsonOutputParameter.getString(s)));
+                            }
+                        }
+                    } else {
+                        failcaseinsert(response.body().print(), caselist, variablelist);//把错误的返回插入库中
                     }
-                } else {
-                    failcaseinsert(response.body().print(), caselist, variablelist);//把错误的返回插入库中
                 }
+                else if (caselist.getAsserttype().equals(">")) {
+                    if (Integer.valueOf(sb.toString()) > Integer.valueOf(caselist.getAssertresult())) {
+                        report.setSuccesssum(report.getSuccesssum() + 1);//记case成功总数
+                        if (StringUtils.isNotEmpty(report.getSuccessfullist())) {
+                            report.setSuccessfullist(report.getSuccessfullist() + "," + caselist.getCaseTitle());
+                        } else {
+                            report.setSuccessfullist(caselist.getCaseTitle());
+                        }
+
+                        //输出参数组装
+                        if (!jsonOutputParameter.isEmpty()) {
+                            Set<String> set = jsonOutputParameter.keySet();
+                            for (String s : set) {
+                                responsebody.put(s, path.get(jsonOutputParameter.getString(s)));
+                            }
+                        }
+                    } else {
+                        failcaseinsert(response.body().print(), caselist, variablelist);//把错误的返回插入库中
+                    }
+                }
+                else if (caselist.getAsserttype().equals("<")) {
+                    if (Integer.valueOf(sb.toString()) < Integer.valueOf(caselist.getAssertresult())) {
+                        report.setSuccesssum(report.getSuccesssum() + 1);//记case成功总数
+                        if (StringUtils.isNotEmpty(report.getSuccessfullist())) {
+                            report.setSuccessfullist(report.getSuccessfullist() + "," + caselist.getCaseTitle());
+                        } else {
+                            report.setSuccessfullist(caselist.getCaseTitle());
+                        }
+
+                        //输出参数组装
+                        if (!jsonOutputParameter.isEmpty()) {
+                            Set<String> set = jsonOutputParameter.keySet();
+                            for (String s : set) {
+                                responsebody.put(s, path.get(jsonOutputParameter.getString(s)));
+                            }
+                        }
+                    } else {
+                        failcaseinsert(response.body().print(), caselist, variablelist);//把错误的返回插入库中
+                    }
+                }
+                else if (caselist.getAsserttype().equals(">=")) {
+                    if (Integer.valueOf(sb.toString()) >= Integer.valueOf(caselist.getAssertresult())) {
+                        report.setSuccesssum(report.getSuccesssum() + 1);//记case成功总数
+                        if (StringUtils.isNotEmpty(report.getSuccessfullist())) {
+                            report.setSuccessfullist(report.getSuccessfullist() + "," + caselist.getCaseTitle());
+                        } else {
+                            report.setSuccessfullist(caselist.getCaseTitle());
+                        }
+
+                        //输出参数组装
+                        if (!jsonOutputParameter.isEmpty()) {
+                            Set<String> set = jsonOutputParameter.keySet();
+                            for (String s : set) {
+                                responsebody.put(s, path.get(jsonOutputParameter.getString(s)));
+                            }
+                        }
+                    } else {
+                        failcaseinsert(response.body().print(), caselist, variablelist);//把错误的返回插入库中
+                    }
+                }
+                else if (caselist.getAsserttype().equals("<=")) {
+                    if (Integer.valueOf(sb.toString()) <= Integer.valueOf(caselist.getAssertresult())) {
+                        report.setSuccesssum(report.getSuccesssum() + 1);//记case成功总数
+                        if (StringUtils.isNotEmpty(report.getSuccessfullist())) {
+                            report.setSuccessfullist(report.getSuccessfullist() + "," + caselist.getCaseTitle());
+                        } else {
+                            report.setSuccessfullist(caselist.getCaseTitle());
+                        }
+
+                        //输出参数组装
+                        if (!jsonOutputParameter.isEmpty()) {
+                            Set<String> set = jsonOutputParameter.keySet();
+                            for (String s : set) {
+                                responsebody.put(s, path.get(jsonOutputParameter.getString(s)));
+                            }
+                        }
+                    } else {
+                        failcaseinsert(response.body().print(), caselist, variablelist);//把错误的返回插入库中
+                    }
+                }
+                else {
+                    logger.error("断言类型不支持：" + caselist.getAsserttype());
+                    System.out.println("断言类型不支持：" + caselist.getAsserttype());
+                }
+
             } else {
 
                 failcaseinsert(response.body().print(), caselist, variablelist);//把错误的返回插入库中
@@ -279,12 +367,13 @@ public class ReportController {
         variablelist.getFailcase().setPerformtasksid(performtasks.getId());//添加任务id
         String scenegroupid = performtasks.getScenegroupid();
         if (StringUtils.isEmpty(scenegroupid)) {
-            System.out.println("场景为空返return");
+            System.out.println("场景为空返");
             return false;
         }
         String[] split = scenegroupid.split(",");
         for (String str : split) {
             variablelist.getFailcase().setSceneid(Integer.parseInt(str));//添加场景id
+            //查询场景
             Sceneclassification scene = sceneclassificationService.scenestart(Integer.parseInt(str));
             String s = scene.getCasegroup();
             if (StringUtils.isEmpty(s)) {
@@ -295,9 +384,12 @@ public class ReportController {
             String[] split1 = s.split(",");
             List<Caselist> caselist = new ArrayList<>();
             for (String str1 : split1) {
+                //查询用例
                 Caselist casestart = caselistService.casestart(Integer.parseInt(str1));
                 caselist.add(casestart);
             }
+
+
             for (Caselist cas : caselist) {
                 jsonOrNull(cas, variablelist);//把各种数据加装到各参数中
                 casetest(cas, variablelist);//执行用例
