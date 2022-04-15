@@ -1,6 +1,7 @@
 package com.example.server.pojo;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.server.constant.ServerHosts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ public class variable {
     private JSONObject responsebody =new JSONObject();
     private Failcase failcase=new Failcase();
     private List<Failcase> failcaselist=new ArrayList<>();
+
 
     public Report getReport() {
         return report;

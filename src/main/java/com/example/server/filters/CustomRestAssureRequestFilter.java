@@ -22,7 +22,7 @@ public class CustomRestAssureRequestFilter implements Filter {
 
     @Override
     public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec, FilterContext ctx) {
-        requestSpec.baseUri(ServerHosts.SERVER_HOST);
+        //requestSpec.baseUri(ServerHosts.SERVER_HOST);
         return ctx.next(requestSpec, responseSpec);
     }
 

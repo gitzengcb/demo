@@ -3,8 +3,17 @@ package com.example.server.testngs;
 //import org.junit.Test;
 
 
+import java.util.ArrayList;
+
 public class test1 {
     public static void main(String[] args) {
+        ArrayList<Object> list = new ArrayList<>();
+        list.add("235");
+        ArrayList<String> list1 = (ArrayList<String>)list.clone();
+        list1.add("3465476");
+        list.size();
+        System.out.println(list.size());
+
 
     }
 

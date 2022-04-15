@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.server.constant.AuthorizationConstant;
 import com.example.server.constant.ServerHosts;
 import com.example.server.constant.UrlPath;
+import com.example.server.pojo.Performtasks;
 import io.restassured.filter.FilterContext;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -28,13 +29,23 @@ public class LoginAuthRequestFilter implements AuthFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginAuthRequestFilter.class);
     private static String logintoken = null;
+    private static String username=null;
+    private static String password=null;
+    private static String hosturl=null;
+
+    public void canshu(Performtasks performtasks) {
+        username=performtasks.getUsername();
+        password=performtasks.getPassword();
+        hosturl=performtasks.getHosturl();
+    }
+
 
 
 
     @Override
     public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec, FilterContext ctx) {
 
-        requestSpec.baseUri(ServerHosts.SERVER_HOST);
+        requestSpec.baseUri(hosturl);
         replaceHeader(requestSpec);
 
         if (requestSpec.getURI().contains(UrlPath.OAUTH_login)//判断是否是登陆接口
@@ -74,8 +85,12 @@ public class LoginAuthRequestFilter implements AuthFilter {
     private String doRestAssuredAuth(FilterableRequestSpecification requestSpec) {
 //        String encryptPassword = EncryptUtil.encrypt(AuthorizationConstant.PASSWORD, AuthorizationConstant.PUBLIC_KEY);
         JSONObject requestParams = new JSONObject();
-        requestParams.put("accountNo", AuthorizationConstant.USER_NAME);
-        requestParams.put("password", AuthorizationConstant.PASSWORD);
+//        requestParams.put("accountNo", AuthorizationConstant.USER_NAME);
+        requestParams.put("accountNo", username);
+//        requestParams.put("password", AuthorizationConstant.PASSWORD);
+        requestParams.put("password", password);
+
+        System.out.println("登陆账户："+username+"/"+password);
         String token =
                 given().
                         body(requestParams.toJSONString()).
@@ -86,6 +101,7 @@ public class LoginAuthRequestFilter implements AuthFilter {
                         path("data.token");
         return token;
     }
+
 
 //    private void getDefaultLocation() {
 //

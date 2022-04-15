@@ -34,7 +34,7 @@ public class Caselist implements Serializable {
     @ApiModelProperty(value = "用例标题")
     private String caseTitle;
 //    @NotBlank(message = "请求体不能为空")
-    @Length(message = "长度不能超过{500}",max = 500)
+    @Length(message = "长度不能超过{max}",max = 500)
     @ApiModelProperty(value = "请求体")
     private String caserequest;
 
@@ -66,7 +66,6 @@ public class Caselist implements Serializable {
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
-
 
 
     public Integer getId() {

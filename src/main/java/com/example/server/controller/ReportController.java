@@ -2,6 +2,8 @@ package com.example.server.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.server.constant.ServerHosts;
+import com.example.server.filters.LoginAuthRequestFilter;
 import com.example.server.pojo.*;
 import com.example.server.publics.RespBean;
 import com.example.server.service.ICaselistService;
@@ -63,6 +65,10 @@ public class ReportController {
     @PostMapping("startcase")
     public RespBean startcase(@RequestBody Performtasks performtasks) {
         logger.error("");
+        //先读取配置
+//        new RestAssuredUtil().init(performtasks);
+        new LoginAuthRequestFilter().canshu(performtasks);
+
         //初始化参数
         variable variablelist = new variable();
         //用例方法执行
@@ -500,6 +506,13 @@ public class ReportController {
 
         return RespBean.sucess("查询成功", date);
     }
-
+        //读取配置信息
+    public ServerHosts Parameter(Performtasks performtasks){
+        ServerHosts serverHosts = new ServerHosts();
+        serverHosts.setUsername(performtasks.getUsername());
+        serverHosts.setPassword(performtasks.getPassword());
+        serverHosts.setHosturl(performtasks.getHosturl());
+        return serverHosts;
+    }
 
 }

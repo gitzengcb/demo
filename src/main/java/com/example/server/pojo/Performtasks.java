@@ -45,6 +45,34 @@ public class Performtasks implements Serializable {
 
     private Boolean enabled;
 
+    private String username;
+    private String password;
+    private String hosturl;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getHosturl() {
+        return hosturl;
+    }
+
+    public void setHosturl(String hosturl) {
+        this.hosturl = hosturl;
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -106,6 +134,9 @@ public class Performtasks implements Serializable {
                 ", createtime=" + createtime +
                 ", updateTime=" + updateTime +
                 ", enabled=" + enabled +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", hosturl='" + hosturl + '\'' +
                 '}';
     }
 }
