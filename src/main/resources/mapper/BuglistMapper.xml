@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.mapper.BuglistMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.server.pojo.Buglist">
+        <id column="id" property="id" />
+        <result column="bugtitle" property="bugtitle" />
+        <result column="bugdescribe" property="bugdescribe" />
+        <result column="groupsid" property="groupsid" />
+        <result column="priorityid" property="priorityid" />
+        <result column="stateid" property="stateid" />
+        <result column="bugtypeid" property="bugtypeid" />
+        <result column="labelid" property="labelid" />
+        <result column="createtime" property="createtime" />
+        <result column="updatetime" property="updatetime" />
+        <result column="active" property="active" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, bugtitle, bugdescribe, groupsid, priorityid, stateid, bugtypeid, labelid, createtime, updatetime, active
+    </sql>
+
+</mapper>
