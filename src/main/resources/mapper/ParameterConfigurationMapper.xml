@@ -19,7 +19,7 @@
     <select id="select"  resultType="com.example.server.pojo.ParameterConfiguration">
         select * from parameter_configuration
     </select>
-    <update id="delete" parameterType="id" >
+    <update id="delete" parameterType="com.example.server.pojo.ParameterConfiguration" >
         update parameter_configuration set active=0 where id=#{id}
     </update>
 

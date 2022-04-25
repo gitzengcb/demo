@@ -16,4 +16,6 @@ import java.util.List;
 public interface GroupsMapper extends BaseMapper<Groups> {
 
     List<Groups> select();
+
+    //List selectList(int id);
 }

@@ -3,7 +3,7 @@ package com.example.server.controller;
 import com.example.server.mapper.CcUsernameInfosMapper;
 import com.example.server.pojo.Person;
 import com.example.server.pojo.Persons;
-import com.example.server.pojo.Uuser;
+import com.example.server.pojo.Selectbug;
 import com.example.server.publics.RespBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,9 +37,9 @@ public class HttpPost {
 //        System.out.printf(String.valueOf(hashMap.get("yes")));
         return RespBean.sucess("成功", hashMap);
     }
-    @GetMapping("httpget")
+    @GetMapping("select/buglist")
 //    @ResponseBody
-    public RespBean httpget(@Valid Uuser uuser,BindingResult bindingResult){
+    public RespBean httpget(@Valid Selectbug uuser, BindingResult bindingResult){
         //BindingResult 获取Valid返回的Message数据
         if (bindingResult.hasErrors()){
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());

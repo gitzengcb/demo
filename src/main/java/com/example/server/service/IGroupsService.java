@@ -18,4 +18,6 @@ public interface IGroupsService extends IService<Groups> {
     void insert(Groups groups);
 
     List<Groups> select();
+
+   // List selectlistid(int id);
 }

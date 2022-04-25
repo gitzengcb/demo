@@ -11,11 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -48,14 +44,17 @@ public class GroupsController {
 
         return RespBean.sucess("新增成功");
     }
-    @PostMapping("select/groups")
+
+
+    @GetMapping("select/groupstree")
     public RespBean selectgroups(){
         List<Groups> select = groupsService.select();
         List<Groups> tree = tree(select);
         Map<Object, Object> objectObjectMap = new HashMap<>();
-        objectObjectMap.put("list",objectObjectMap);
 
-        return RespBean.sucess("新增成功",objectObjectMap);
+        objectObjectMap.put("list",tree);
+
+        return RespBean.sucess("true",objectObjectMap);
     }
     private List<Groups> tree(List<Groups> alllist) {
         List<Groups> listtree = new ArrayList<>();
@@ -67,7 +66,6 @@ public class GroupsController {
         }
         return listtree;
     }
-
     private List<Groups> treelist(List<Groups> alllist, Integer id) {
         List<Groups> zitree = new ArrayList<>();
         for (Groups ov:alllist){

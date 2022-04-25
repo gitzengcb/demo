@@ -3,6 +3,9 @@ package com.example.server.mapper;
 import com.example.server.pojo.Buglist;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  *  Mapper 接口
@@ -13,4 +16,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface BuglistMapper extends BaseMapper<Buglist> {
 
+    void update(Buglist buglist);
+
+    List<Buglist> select(Map map);
 }

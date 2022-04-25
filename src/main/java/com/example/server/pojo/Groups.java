@@ -104,7 +104,7 @@ public class Groups implements Serializable {
     }
 
     public void setClasslist(List<Groups> classlist) {
-        classlist = classlist;
+        this.classlist = classlist;
     }
 
     @Override
