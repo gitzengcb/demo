@@ -63,6 +63,24 @@ public class Buglist implements Serializable {
     private List<Integer> stateidlist;
     private List<Integer> bugtypeidlist;
     private List<Integer> labelidlist;
+    private int size;
+    private int current;
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(int current) {
+        this.current = current;
+    }
 
     private LocalDateTime createtime;
 
@@ -205,6 +223,12 @@ public class Buglist implements Serializable {
                 ", stateid=" + stateid +
                 ", bugtypeid=" + bugtypeid +
                 ", labelid=" + labelid +
+                ", priorityidlist=" + priorityidlist +
+                ", stateidlist=" + stateidlist +
+                ", bugtypeidlist=" + bugtypeidlist +
+                ", labelidlist=" + labelidlist +
+                ", size=" + size +
+                ", current=" + current +
                 ", createtime=" + createtime +
                 ", updatetime=" + updatetime +
                 ", active=" + active +

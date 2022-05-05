@@ -89,6 +89,8 @@ public class BuglistController {
         map.put("stateidlist",buglist.getStateidlist());
         map.put("bugtypeidlist",buglist.getBugtypeidlist());
         map.put("labelidlist",buglist.getLabelidlist());
+        map.put("start",(buglist.getCurrent()-1)*buglist.getSize());
+        map.put("size",buglist.getSize());
 
         List<Buglist> listall = buglistService.select(map);
         Map<Object, Object> objectObjectHashMap = new HashMap<>();
