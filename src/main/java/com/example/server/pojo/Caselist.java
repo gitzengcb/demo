@@ -53,20 +53,40 @@ public class Caselist implements Serializable {
     @ApiModelProperty(value = "断言结果")
     private String assertresult;
 
+    @ApiModelProperty(value = "变量key")
+    private String inputlist;
     private LocalDateTime createtime;
 
     private LocalDateTime updateTime;
 
     private Boolean enabled;
+    @ApiModelProperty(value = "接口id")
     private int interfaceid;
+    @ApiModelProperty(value = "断言类型")
     private String asserttype;
-
+    @ApiModelProperty(value = "接口")
     private Interface face;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    @Override
+    public String toString() {
+        return "Caselist{" +
+                "id=" + id +
+                ", caseTitle='" + caseTitle + '\'' +
+                ", caserequest='" + caserequest + '\'' +
+                ", inputParameter='" + inputParameter + '\'' +
+                ", outputParameter='" + outputParameter + '\'' +
+                ", header='" + header + '\'' +
+                ", asserts='" + asserts + '\'' +
+                ", assertresult='" + assertresult + '\'' +
+                ", inputlist='" + inputlist + '\'' +
+                ", createtime=" + createtime +
+                ", updateTime=" + updateTime +
+                ", enabled=" + enabled +
+                ", interfaceid=" + interfaceid +
+                ", asserttype='" + asserttype + '\'' +
+                ", face=" + face +
+                '}';
     }
-
 
     public Integer getId() {
         return id;
@@ -132,6 +152,14 @@ public class Caselist implements Serializable {
         this.assertresult = assertresult;
     }
 
+    public String getInputlist() {
+        return inputlist;
+    }
+
+    public void setInputlist(String inputlist) {
+        this.inputlist = inputlist;
+    }
+
     public LocalDateTime getCreatetime() {
         return createtime;
     }
@@ -178,25 +206,5 @@ public class Caselist implements Serializable {
 
     public void setFace(Interface face) {
         this.face = face;
-    }
-
-    @Override
-    public String toString() {
-        return "Caselist{" +
-                "id=" + id +
-                ", caseTitle='" + caseTitle + '\'' +
-                ", caserequest='" + caserequest + '\'' +
-                ", inputParameter='" + inputParameter + '\'' +
-                ", outputParameter='" + outputParameter + '\'' +
-                ", header='" + header + '\'' +
-                ", asserts='" + asserts + '\'' +
-                ", assertresult='" + assertresult + '\'' +
-                ", createtime=" + createtime +
-                ", updateTime=" + updateTime +
-                ", enabled=" + enabled +
-                ", interfaceid=" + interfaceid +
-                ", asserttype='" + asserttype + '\'' +
-                ", face=" + face +
-                '}';
     }
 }

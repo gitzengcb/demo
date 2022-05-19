@@ -25,5 +25,5 @@ public interface ISceneclassificationService extends IService<Sceneclassificatio
 
     int addcase(Sceneclassification sceneclassification);
 
-    Sceneclassification scenestart(int parseInt);
+    Sceneclassification selectscenelist(int parseInt);
 }

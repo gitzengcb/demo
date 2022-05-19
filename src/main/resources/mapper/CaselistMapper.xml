@@ -17,6 +17,7 @@
         <!--        <result column="enabled" property="enabled"/>-->
         <result column="interfaceid" property="interfaceid"/>
         <result column="asserttype" property="asserttype"/>
+        <result column="inputlist" property="inputlist"/>
         <association property="face" column="interfaceid" javaType="com.example.server.pojo.Interface">
             <id column="ids" property="id"/>
             <result column="classificationid" property="classificationid"/>
@@ -32,11 +33,11 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , caseTitle, caserequest, inputParameter, outputParameter, header, asserts, assertresult, createtime, updateTime, enabled,interfaceid,asserttype
+        , caseTitle, caserequest, inputParameter, outputParameter, header, asserts, assertresult, createtime, updateTime, enabled,interfaceid,asserttype,inputlist
     </sql>
     <insert id="insert" parameterType="com.example.server.pojo.Caselist">
-        insert into caselist (caseTitle, caserequest, asserts, assertresult, createtime, interfaceid, asserttype)
-        values (#{caseTitle}, #{caserequest}, #{asserts}, #{assertresult}, #{createtime}, #{interfaceid}, #{asserttype})
+        insert into caselist (caseTitle, caserequest, asserts, assertresult, createtime, interfaceid, asserttype,inputlist)
+        values (#{caseTitle}, #{caserequest}, #{asserts}, #{assertresult}, #{createtime}, #{interfaceid}, #{asserttype},#{inputlist})
     </insert>
     <update id="update" parameterType="com.example.server.pojo.Caselist">
         update caselist
@@ -49,7 +50,8 @@
             assertresult=#{assertresult},
             updateTime=#{updateTime},
             interfaceid=#{interfaceid},
-            asserttype=#{asserttype}
+            asserttype=#{asserttype},
+            inputlist=#{inputlist}
         where id = #{id}
     </update>
     <select id="select" parameterType="com.example.server.pojo.Caselist" resultType="com.example.server.pojo.Caselist">
@@ -90,6 +92,7 @@
                a.assertresult,
                a.interfaceid,
                a.asserttype,
+               a.inputlist,
                b.id ids,
                b.classificationid,
                b.interfaceName,

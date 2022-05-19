@@ -13,6 +13,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class RespBean {
     private long code;
     private String message;

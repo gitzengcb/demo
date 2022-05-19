@@ -22,4 +22,6 @@ public interface IPerformtasksService extends IService<Performtasks> {
     List<Performtasks> selecttasks();
 
     int deletetasks(Performtasks performtasks);
+
+    String selectscenegroupid(Integer id);
 }

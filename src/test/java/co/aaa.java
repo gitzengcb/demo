@@ -10,8 +10,18 @@ import static io.restassured.RestAssured.given;
 
 public class aaa {
     public static void main(String[] args) throws Exception {
-        Buglist buglist = new Buglist();
-        System.out.println(buglist.getId());
+
+
+
+        String s=null;
+        if (s==null){
+            System.out.println(s);
+
+        }
+
+
+//        Buglist buglist = new Buglist();
+//        System.out.println(buglist.getId());
 
 
 //        String s="dfg26d46846sb53ssg3454646646844fhdfghdh876867868";

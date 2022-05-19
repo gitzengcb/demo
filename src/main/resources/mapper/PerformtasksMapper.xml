@@ -26,6 +26,9 @@
     <select id="select" resultType="com.example.server.pojo.Performtasks">
         select * from performtasks where enabled=true
     </select>
+    <select id="selectscenegroup" resultType="java.lang.String" parameterType="int">
+        select scenegroupid from performtasks where id=#{id}
+    </select>
     <delete id="delete" parameterType="com.example.server.pojo.Performtasks">
         update performtasks set enabled=false where id=#{id}
     </delete>

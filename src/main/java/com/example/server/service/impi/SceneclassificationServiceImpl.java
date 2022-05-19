@@ -49,7 +49,7 @@ public class SceneclassificationServiceImpl extends ServiceImpl<Sceneclassificat
     }
     @Description("根据场景id查询")
     @Override
-    public Sceneclassification scenestart(int id){
+    public Sceneclassification selectscenelist(int id){
         return sceneclassificationMapper.scenestart(id);
     }
 }

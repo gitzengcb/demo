@@ -63,5 +63,7 @@ testng:
 hbos:
   host: http://hbos-test.cfuture.shop/
   hostst: hbos-test.cfuture.shop
-  user: hl002
+  user: hl001
   password: 123456
+
+publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDXaFoMlA3ctUguD0rLbbFVqbajvlBH5jSWaZl7re+Xqp7BvoRwc5HOWGwtNvkUlv3WNIAw/YlUgWIz5r0fV6N8KHqSnV0CIpy7OJW67H1tVQ9Fbt4ZVx9RSJ378IBqN4ucacw2OuqA29I5AS9EhLCJWIXljPNNACmubPiv5mcn6wIDAQAB

@@ -21,4 +21,6 @@ public interface PerformtasksMapper extends BaseMapper<Performtasks> {
     List<Performtasks> select();
 
     int delete(Performtasks performtasks);
+
+    String selectscenegroup(Integer id);
 }

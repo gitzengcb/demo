@@ -15,6 +15,7 @@ public class variable {
     private JSONObject responsebody =new JSONObject();
     private Failcase failcase=new Failcase();
     private List<Failcase> failcaselist=new ArrayList<>();
+    private List<String> inputlist=new ArrayList<>();
 
 
     public Report getReport() {
@@ -81,6 +82,14 @@ public class variable {
         this.failcaselist = failcaselist;
     }
 
+    public List<String> getInputlist() {
+        return inputlist;
+    }
+
+    public void setInputlist(List<String> inputlist) {
+        this.inputlist = inputlist;
+    }
+
     @Override
     public String toString() {
         return "variable{" +
@@ -92,6 +101,7 @@ public class variable {
                 ", responsebody=" + responsebody +
                 ", failcase=" + failcase +
                 ", failcaselist=" + failcaselist +
+                ", inputlist=" + inputlist +
                 '}';
     }
 }

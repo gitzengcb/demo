@@ -9,10 +9,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthorizationConstant {
 
+    public static String AUTHORIZATION;
+
+    public static String PUBLIC_KEY;
+
     public static String USER_NAME;
 
     public static String PASSWORD;
 
+
+//    @Value("${authorization}")
+//    public void setAuthorization(String authorization){
+//        AUTHORIZATION = authorization;
+//    }
+    @Value("${publicKey}")
+    public void setPublicKey(String publicKey){
+        PUBLIC_KEY = publicKey;
+    }
     @Value("${hbos.user}")
     public void setUserName(String userName) { USER_NAME = userName; }
     @Value("${hbos.password}")

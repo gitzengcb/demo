@@ -6,10 +6,7 @@ import com.example.server.constant.ServerHosts;
 import com.example.server.filters.LoginAuthRequestFilter;
 import com.example.server.pojo.*;
 import com.example.server.publics.RespBean;
-import com.example.server.service.ICaselistService;
-import com.example.server.service.IFailcaseService;
-import com.example.server.service.IReportService;
-import com.example.server.service.ISceneclassificationService;
+import com.example.server.service.*;
 import com.example.server.utils.RestAssuredUtil;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -60,26 +57,24 @@ public class ReportController {
     ICaselistService caselistService;
     @Autowired
     IFailcaseService failcaseService;
+    @Autowired
+    IPerformtasksService performtasksService;
 
     //执行任务
     @PostMapping("startcase")
     public RespBean startcase(@RequestBody Performtasks performtasks) {
-        logger.error("");
-        //先读取配置
-//        new RestAssuredUtil().init(performtasks);
-        new LoginAuthRequestFilter().canshu(performtasks);
-
         //初始化参数
         variable variablelist = new variable();
-        //用例方法执行
+
+        //用例执行
         if (!scenestart(performtasks, variablelist)) {
             return RespBean.error("执行场景不能为空");
         }
+
+
         Report report = variablelist.getReport();
-//        List<Failcase> failcaselist = variablelist.getFailcaselist();
-        System.out.println("执行用例数量总数" + report.getBasesum());
-        System.out.println("用例成功数量总数" + report.getSuccesssum());
-        System.out.println("用例失败数量总数" + report.getErrorsum());
+
+        logger.info("执行用例数量总数" + report.getBasesum()+"/"+"用例成功数量总数" + report.getSuccesssum()+"/"+"用例失败数量总数" + report.getErrorsum());
         Map<String, Object> map = new HashMap<>();
         map.put("Basesum", report.getBasesum());
         map.put("Successsum", report.getSuccesssum());
@@ -137,23 +132,24 @@ public class ReportController {
     }
 
     private void Gettest(Caselist caselist, variable variablelist) {
-        JSONObject jsonInputParameter = variablelist.getJsonInputParameter();
+        String inputlist = caselist.getInputlist();
         JSONObject jsonrequest = variablelist.getJsonrequest();
-
-        if (!jsonInputParameter.isEmpty()) {
-            Set<String> set = jsonInputParameter.keySet();
-            for (String s : set) {
-                jsonrequest.put(s, jsonInputParameter.get(s));
-                System.out.println("输入参数修改" + s + "...." + jsonInputParameter.get(s));
-            }
-        }
         Map<String, Object> requestmap = new HashMap<>();
-        if (!jsonrequest.isEmpty()) {
-            Set<String> requestset = jsonrequest.keySet();
-            for (String r : requestset) {
-                requestmap.put(r, jsonrequest.get(r));
+        //加载变量参数
+        if (inputlist!=null){
+            String[] split = inputlist.split(",");
+            for (String str:split){
+                jsonrequest.put(str,variablelist.getResponsebody().get(str));
             }
+
         }
+        //转换成map
+
+        Set<String> requestset = jsonrequest.keySet();
+        for (String r : requestset) {
+            requestmap.put(r, jsonrequest.get(r));
+        }
+
         Response response =
                 given()
                         .params(requestmap)
@@ -164,20 +160,31 @@ public class ReportController {
                         .spec(RestAssuredUtil.getDefaultResponseSpecification())
                         .extract().response();
 
-        responsetest(response, caselist, variablelist);
+        responseAsserts(response, caselist, variablelist);
     }
 
 
     private void Posttest(Caselist caselist, variable variablelist) {
-        JSONObject jsonInputParameter = variablelist.getJsonInputParameter();
+        String inputlist = caselist.getInputlist();
         JSONObject jsonrequest = variablelist.getJsonrequest();
-        if (!jsonInputParameter.isEmpty()) {
-            Set<String> set = jsonInputParameter.keySet();
-            for (String s : set) {
-                jsonrequest.put(s, jsonInputParameter.get(s));
-                System.out.println("输入参数修改" + s + "...." + jsonInputParameter.get(s));
+
+        if (!inputlist.isEmpty()){
+            String[] split = inputlist.split(",");
+            for (String str:split){
+                jsonrequest.put(str,variablelist.getResponsebody().get(str));//加载变量参数
             }
+
         }
+
+
+//        if (!jsonInputParameter.isEmpty()) {
+//            Set<String> set = jsonInputParameter.keySet();
+//            for (String s : set) {
+//                jsonrequest.put(s, jsonInputParameter.get(s));
+//                System.out.println("输入参数修改" + s + "...." + jsonInputParameter.get(s));
+//                logger.info("输入参数修改" + s + "...." + jsonInputParameter.get(s));
+//            }
+//        }
 
         Response response =
                 given()
@@ -190,16 +197,17 @@ public class ReportController {
                         .spec(RestAssuredUtil.getDefaultResponseSpecification())
                         .extract()
                         .response();
-        responsetest(response, caselist, variablelist);
+        responseAsserts(response, caselist, variablelist);//断言
     }
 
 
     //断言
-    private void responsetest(Response response, Caselist caselist, variable variablelist) {
+    private void responseAsserts(Response response, Caselist caselist, variable variablelist) {
         JsonPath path = response.body().jsonPath();
         Report report = variablelist.getReport();
         JSONObject jsonOutputParameter = variablelist.getJsonOutputParameter();
         JSONObject responsebody = variablelist.getResponsebody();
+
         try {
             if (path.getInt("code") == 200) {
                 StringBuilder sb = new StringBuilder("");
@@ -330,12 +338,14 @@ public class ReportController {
         Report report = variablelist.getReport();
         Failcase failcase = variablelist.getFailcase();
         List<Failcase> failcaselist = variablelist.getFailcaselist();
+
         report.setErrorsum(report.getErrorsum() + 1);//记case失败总数
         if (StringUtils.isNotEmpty(report.getFailurelist())) {
             report.setFailurelist(report.getFailurelist() + "," + caselist.getCaseTitle());
         } else {
             report.setFailurelist(caselist.getCaseTitle());
         }
+
         failcase.setCaseid(caselist.getId());
         failcase.setCreatetime(LocalDateTime.now().plusHours(14));
         failcase.setErrorlog(print);
@@ -343,24 +353,19 @@ public class ReportController {
     }
 
     //取出入参的所有数据变量
-    private void jsonOrNull(Caselist caselist, variable variablelist) {
+    private void dataloading(Caselist caselist, variable variablelist) {
         try {
             if (StringUtils.isNotEmpty(caselist.getCaserequest())) {
                 variablelist.setJsonrequest(JSONObject.parseObject(caselist.getCaserequest()));
-//                jsonrequest = JSONObject.parseObject(caselist.getCaserequest());
             }
             if (StringUtils.isNotEmpty(caselist.getHeader())) {
                 variablelist.setJsonHeader(JSONObject.parseObject(caselist.getHeader()));
-//                jsonHeader = JSONObject.parseObject(caselist.getHeader());
             }
-            if (StringUtils.isNotEmpty(caselist.getInputParameter())) {
-                variablelist.setJsonInputParameter(JSONObject.parseObject(caselist.getInputParameter()));
-//                jsonInputParameter = JSONObject.parseObject(caselist.getInputParameter());
-            }
+
             if (StringUtils.isNotEmpty(caselist.getOutputParameter())) {
                 variablelist.setJsonOutputParameter(JSONObject.parseObject(caselist.getOutputParameter()));
-//                jsonOutputParameter = JSONObject.parseObject(caselist.getOutputParameter());
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("解析参数异常" + e);
@@ -371,97 +376,47 @@ public class ReportController {
     private boolean scenestart(Performtasks performtasks, variable variablelist) {
 
         variablelist.getFailcase().setPerformtasksid(performtasks.getId());//添加任务id
-        String scenegroupid = performtasks.getScenegroupid();
+
+        //执行任务id查场景组id
+        String scenegroupid = performtasksService.selectscenegroupid(performtasks.getId());
+
         if (StringUtils.isEmpty(scenegroupid)) {
-            System.out.println("场景为空返");
+            logger.info("没有场景id");
             return false;
         }
+
         String[] split = scenegroupid.split(",");
         for (String str : split) {
             variablelist.getFailcase().setSceneid(Integer.parseInt(str));//添加场景id
-            //查询场景
-            Sceneclassification scene = sceneclassificationService.scenestart(Integer.parseInt(str));
-            String s = scene.getCasegroup();
-            if (StringUtils.isEmpty(s)) {
+            //查询场景id的数据
+            Sceneclassification scene = sceneclassificationService.selectscenelist(Integer.parseInt(str));
+            String casegroup = scene.getCasegroup();
+            if (StringUtils.isEmpty(casegroup)) {
                 logger.info(scene.getScenename() + "场景case为空");
                 System.out.println(scene.getScenename() + "场景case为空");
                 continue;
             }
-            String[] split1 = s.split(",");
+
+            String[] split1 = casegroup.split(",");
             List<Caselist> caselist = new ArrayList<>();
             for (String str1 : split1) {
-                //查询用例
-                Caselist casestart = caselistService.casestart(Integer.parseInt(str1));
-                caselist.add(casestart);
-            }
+                //查询用例并加载到用例组中
+                Caselist cas = caselistService.casestart(Integer.parseInt(str1));
 
-
-            for (Caselist cas : caselist) {
-                jsonOrNull(cas, variablelist);//把各种数据加装到各参数中
+                dataloading(cas, variablelist);//把各种数据加装到各参数中
                 casetest(cas, variablelist);//执行用例
                 variablelist.setJsonrequest(new JSONObject());
                 variablelist.setJsonHeader(new JSONObject());
-                variablelist.setJsonInputParameter(new JSONObject());
                 variablelist.setJsonOutputParameter(new JSONObject());
-//                jsonrequest=new JSONObject();
-//                jsonHeader =new JSONObject();
-//                jsonInputParameter =new JSONObject();
-//                jsonOutputParameter =new JSONObject();
             }
+
             variablelist.setResponsebody(new JSONObject());
-//            responsebody=new JSONObject();//执行完场景后初始化变量参数
+
         }
         return true;
     }
 
-    //    @PostMapping("/testngstart")
-//    public RespBean testngstart() {
-////        String relativelyPath=System.getProperty("user.dir");
-////        System.out.println("工程根目录:"+relativelyPath);
-//
-//        TestNG testNG = new TestNG();
-//        List<String> suites = new ArrayList<String>();
-////        suites.add(ProcessTest.class.getClassLoader().getResource("testng.xml").getPath());
-//        suites.add("testng.xml");
-////        suites.add(relativelyPath+"/testng.xml");
-//        testNG.setTestSuites(suites);
-//        testNG.run();
-//
-////         等待执行结束，然后去执行失败用例
-////        TestNG testNG1 = new TestNG();
-////        List<String> suites1 = new ArrayList<String>();
-////        Thread.sleep(5000);
-////        suites1.add(relativelyPath+"/test-output/testng-failed.xml");
-////        testNG1.setTestSuites(suites1);
-////        testNG1.run();
-//        //报告插库
-//
-//
-//        Map<Object, Integer> map = new HashMap();
-//        map.put("Basesum", demo.report.getBasesum());
-//        map.put("Errorsum", demo.report.getErrorsum());
-//        map.put("Successsum", demo.report.getSuccesssum());
-//        Map<Object, Object> date = new HashMap();
-//        date.put("tong", map);
-//        date.put("Successfullist", demo.report.getSuccessfullist());
-//        date.put("Failurelist", demo.report.getFailurelist());
-//
-//
-//        demo.report.setCreate_time(LocalDateTime.now().plusHours(14));
-//        System.out.println("新增参数：" + demo.report);
-//        reportService.insertreport(demo.report);
-//
-//
-//        logger.info("成功用例列表：" + demo.report.getSuccessfullist());
-//        logger.info("失败用例列表：" + demo.report.getFailurelist());
-//        logger.info("用例总数" + demo.report.getBasesum() + "," + "失败用例数" + demo.report.getErrorsum() + "," + "成功用例数" + demo.report.getSuccesssum());
-//
-//        //初始化测试报告数据
-//        new Initialization().testngstart_s();
-//        return RespBean.sucess("执行成功", date);
-//
-//    }
-//查询任务
+//查询报告
     @GetMapping("/selectreport")
     public RespBean selectreport() {
         Map<String, LocalDateTime> map = new HashMap<>();

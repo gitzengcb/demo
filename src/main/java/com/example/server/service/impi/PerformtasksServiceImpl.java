@@ -43,4 +43,9 @@ public class PerformtasksServiceImpl extends ServiceImpl<PerformtasksMapper, Per
     public int deletetasks(Performtasks performtasks){
         return performtasksMapper.delete(performtasks);
     }
+    @Description("查询任务下场景")
+    @Override
+    public String selectscenegroupid(Integer id){
+        return performtasksMapper.selectscenegroup(id);
+    }
 }
