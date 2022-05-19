@@ -46,7 +46,7 @@ public class LoginAuthRequestFilter implements AuthFilter {
     @Override
     public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec, FilterContext ctx) {
 
-        requestSpec.baseUri(hosturl);
+        requestSpec.baseUri(ServerHosts.SERVER_HOST);
         replaceHeader(requestSpec);
 
         if (requestSpec.getURI().contains(UrlPath.OAUTH_login)//判断是否是登陆接口
@@ -86,12 +86,12 @@ public class LoginAuthRequestFilter implements AuthFilter {
     private String doRestAssuredAuth(FilterableRequestSpecification requestSpec) {
 //        String encryptPassword = EncryptUtil.encrypt(AuthorizationConstant.PASSWORD, AuthorizationConstant.PUBLIC_KEY);
         JSONObject requestParams = new JSONObject();
-//        requestParams.put("accountNo", AuthorizationConstant.USER_NAME);
-        requestParams.put("accountNo", username);
-//        requestParams.put("password", AuthorizationConstant.PASSWORD);
-        requestParams.put("password", password);
+        requestParams.put("accountNo", AuthorizationConstant.USER_NAME);
+//        requestParams.put("accountNo", username);
+        requestParams.put("password", AuthorizationConstant.PASSWORD);
+//        requestParams.put("password", password);
 
-        System.out.println("登陆账户："+username+"/"+password);
+//        System.out.println("登陆账户："+username+"/"+password);
         String token =
                 given().
                         body(requestParams.toJSONString()).

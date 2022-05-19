@@ -136,7 +136,7 @@ public class ReportController {
         JSONObject jsonrequest = variablelist.getJsonrequest();
         Map<String, Object> requestmap = new HashMap<>();
         //加载变量参数
-        if (inputlist!=null){
+        if (StringUtils.isNotEmpty(inputlist)){
             String[] split = inputlist.split(",");
             for (String str:split){
                 jsonrequest.put(str,variablelist.getResponsebody().get(str));
@@ -144,10 +144,11 @@ public class ReportController {
 
         }
         //转换成map
-
-        Set<String> requestset = jsonrequest.keySet();
-        for (String r : requestset) {
-            requestmap.put(r, jsonrequest.get(r));
+        if (jsonrequest.size()>0){
+            Set<String> requestset = jsonrequest.keySet();
+            for (String r : requestset) {
+                requestmap.put(r, jsonrequest.get(r));
+            }
         }
 
         Response response =
