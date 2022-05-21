@@ -10,12 +10,12 @@ public class variable {
     private Report report = new Report();
     private JSONObject jsonrequest =new JSONObject();
     private JSONObject jsonHeader =new JSONObject();
-    private JSONObject jsonInputParameter =new JSONObject();
+//    private JSONObject jsonInputParameter =new JSONObject();
     private JSONObject jsonOutputParameter =new JSONObject();
     private JSONObject responsebody =new JSONObject();
     private Failcase failcase=new Failcase();
     private List<Failcase> failcaselist=new ArrayList<>();
-    private List<String> inputlist=new ArrayList<>();
+//    private List<String> inputlist=new ArrayList<>();
 
 
     public Report getReport() {
@@ -42,13 +42,6 @@ public class variable {
         this.jsonHeader = jsonHeader;
     }
 
-    public JSONObject getJsonInputParameter() {
-        return jsonInputParameter;
-    }
-
-    public void setJsonInputParameter(JSONObject jsonInputParameter) {
-        this.jsonInputParameter = jsonInputParameter;
-    }
 
     public JSONObject getJsonOutputParameter() {
         return jsonOutputParameter;
@@ -82,13 +75,6 @@ public class variable {
         this.failcaselist = failcaselist;
     }
 
-    public List<String> getInputlist() {
-        return inputlist;
-    }
-
-    public void setInputlist(List<String> inputlist) {
-        this.inputlist = inputlist;
-    }
 
     @Override
     public String toString() {
@@ -96,12 +82,12 @@ public class variable {
                 "report=" + report +
                 ", jsonrequest=" + jsonrequest +
                 ", jsonHeader=" + jsonHeader +
-                ", jsonInputParameter=" + jsonInputParameter +
+//                ", jsonInputParameter=" + jsonInputParameter +
                 ", jsonOutputParameter=" + jsonOutputParameter +
                 ", responsebody=" + responsebody +
                 ", failcase=" + failcase +
                 ", failcaselist=" + failcaselist +
-                ", inputlist=" + inputlist +
+//                ", inputlist=" + inputlist +
                 '}';
     }
 }

@@ -38,14 +38,6 @@ import static io.restassured.RestAssured.given;
 public class ReportController {
     private static Logger logger = LoggerFactory.getLogger(ReportController.class);
     private static Map<String, Object> date = new HashMap<>();
-//    private static JSONObject jsonrequest =new JSONObject();
-//    private static JSONObject jsonHeader =new JSONObject();
-//    private static JSONObject jsonInputParameter =new JSONObject();
-//    private static JSONObject jsonOutputParameter =new JSONObject();
-//    private static JSONObject responsebody =new JSONObject();
-//    private static Report report=new Report();
-//    private static Failcase failcase=new Failcase();
-//    private static List<Failcase> failcaselist=new ArrayList<>();
 
     @Autowired
     IReportService reportService;
@@ -81,15 +73,18 @@ public class ReportController {
         map.put("Errorsum", report.getErrorsum());
         map.put("Successfullist", report.getSuccessfullist());
         map.put("Failurelist", report.getFailurelist());
-        report.setCreate_time(LocalDateTime.now().plusHours(14));//报告插入数据库
-        reportService.insertreport(report);
+        report.setCreate_time(LocalDateTime.now().plusHours(14));
+        reportService.insertreport(report);//报告插入数据库
         System.out.println(report.getId());
+
+        //插入报错数据
         for (Failcase fail : variablelist.getFailcaselist()) {
             fail.setReportid(report.getId());
             failcaseService.insert(fail);
         }
         //初始化数据
         initialization(variablelist);
+
         //发送钉钉报告
         String str = "." + "执行用例case:" + map.get("Basesum") + "\n" + "执行通过case:" + map.get("Successsum") + "\n"
                 + "执行失败case:" + map.get("Errorsum") + "\n" + "执行成功用例名称:" + map.get("Successfullist") + "\n"
@@ -113,7 +108,6 @@ public class ReportController {
         variablelist.setFailcaselist(new ArrayList<>());
 //        failcaselist=new ArrayList<>();
     }
-
     //通过请求方式(get&post)走向不同的接口api
     private void casetest(Caselist caselist, variable variablelist) {
         Report report = variablelist.getReport();
@@ -130,7 +124,6 @@ public class ReportController {
             System.out.println("请求方式只能支持post与get");
         }
     }
-
     private void Gettest(Caselist caselist, variable variablelist) {
         String inputlist = caselist.getInputlist();
         JSONObject jsonrequest = variablelist.getJsonrequest();
@@ -163,30 +156,17 @@ public class ReportController {
 
         responseAsserts(response, caselist, variablelist);
     }
-
-
     private void Posttest(Caselist caselist, variable variablelist) {
         String inputlist = caselist.getInputlist();
         JSONObject jsonrequest = variablelist.getJsonrequest();
 
-        if (!inputlist.isEmpty()){
+        if (StringUtils.isNotEmpty(inputlist)){
             String[] split = inputlist.split(",");
             for (String str:split){
                 jsonrequest.put(str,variablelist.getResponsebody().get(str));//加载变量参数
             }
 
         }
-
-
-//        if (!jsonInputParameter.isEmpty()) {
-//            Set<String> set = jsonInputParameter.keySet();
-//            for (String s : set) {
-//                jsonrequest.put(s, jsonInputParameter.get(s));
-//                System.out.println("输入参数修改" + s + "...." + jsonInputParameter.get(s));
-//                logger.info("输入参数修改" + s + "...." + jsonInputParameter.get(s));
-//            }
-//        }
-
         Response response =
                 given()
 //                        .headers(jsonHeader)
@@ -200,7 +180,6 @@ public class ReportController {
                         .response();
         responseAsserts(response, caselist, variablelist);//断言
     }
-
 
     //断言
     private void responseAsserts(Response response, Caselist caselist, variable variablelist) {
@@ -224,8 +203,8 @@ public class ReportController {
                             report.setSuccessfullist(caselist.getCaseTitle());
                         }
 
-                        //输出参数组装
-                        if (!jsonOutputParameter.isEmpty()) {
+                        //输出参数提取
+                        if (jsonOutputParameter.size()>0) {
                             Set<String> set = jsonOutputParameter.keySet();
                             for (String s : set) {
                                 responsebody.put(s, path.get(jsonOutputParameter.getString(s)));
@@ -333,8 +312,7 @@ public class ReportController {
         }
         System.out.println(responsebody);
     }
-
-    //写入异常断言失败list
+    //写入异常断言失败
     private void failcaseinsert(String print, Caselist caselist, variable variablelist) {
         Report report = variablelist.getReport();
         Failcase failcase = variablelist.getFailcase();
@@ -353,7 +331,7 @@ public class ReportController {
         failcaselist.add(failcase);
     }
 
-    //取出入参的所有数据变量
+    //取出入参的数据并转化为json
     private void dataloading(Caselist caselist, variable variablelist) {
         try {
             if (StringUtils.isNotEmpty(caselist.getCaserequest())) {
@@ -401,7 +379,7 @@ public class ReportController {
             String[] split1 = casegroup.split(",");
             List<Caselist> caselist = new ArrayList<>();
             for (String str1 : split1) {
-                //查询用例并加载到用例组中
+                //查询用例
                 Caselist cas = caselistService.casestart(Integer.parseInt(str1));
 
                 dataloading(cas, variablelist);//把各种数据加装到各参数中
