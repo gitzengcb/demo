@@ -75,7 +75,7 @@ public class ReportController {
         map.put("Failurelist", report.getFailurelist());
         report.setCreate_time(LocalDateTime.now().plusHours(14));
         reportService.insertreport(report);//报告插入数据库
-        System.out.println(report.getId());
+        logger.info(report.toString());
 
         //插入报错数据
         for (Failcase fail : variablelist.getFailcaselist()) {
@@ -83,7 +83,7 @@ public class ReportController {
             failcaseService.insert(fail);
         }
         //初始化数据
-        initialization(variablelist);
+//        initialization(variablelist);
 
         //发送钉钉报告
         String str = "." + "执行用例case:" + map.get("Basesum") + "\n" + "执行通过case:" + map.get("Successsum") + "\n"
@@ -365,6 +365,7 @@ public class ReportController {
         }
 
         String[] split = scenegroupid.split(",");
+        //循环场景id
         for (String str : split) {
             variablelist.getFailcase().setSceneid(Integer.parseInt(str));//添加场景id
             //查询场景id的数据
@@ -376,14 +377,23 @@ public class ReportController {
                 continue;
             }
 
-            String[] split1 = casegroup.split(",");
-            List<Caselist> caselist = new ArrayList<>();
-            for (String str1 : split1) {
-                //查询用例
-                Caselist cas = caselistService.casestart(Integer.parseInt(str1));
 
-                dataloading(cas, variablelist);//把各种数据加装到各参数中
-                casetest(cas, variablelist);//执行用例
+            String[] split1 = casegroup.split(",");
+            List<Integer> list = new ArrayList<>();
+            for (String cs : split1) {
+                list.add(Integer.parseInt(cs));
+            }
+
+            List<Caselist> caselist = caselistService.casestart(list);
+
+
+            //循环执行case
+            for (Caselist ls : caselist) {
+                //查询用例
+//                Caselist cas = caselistService.casestart(Integer.parseInt(str1));
+
+                dataloading(ls, variablelist);//把各种数据加装到各参数中
+                casetest(ls, variablelist);//执行用例
                 variablelist.setJsonrequest(new JSONObject());
                 variablelist.setJsonHeader(new JSONObject());
                 variablelist.setJsonOutputParameter(new JSONObject());

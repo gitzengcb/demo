@@ -27,5 +27,5 @@ public interface ICaselistService extends IService<Caselist> {
 
     List<Caselist> selectvaguecase(Caselist caselist);
 
-    Caselist casestart(Integer id);
+    List<Caselist> casestart(List<Integer> id);
 }

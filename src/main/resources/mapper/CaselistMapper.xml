@@ -81,7 +81,7 @@
           and enabled = true
     </select>
 
-    <select id="casestart" parameterType="int" resultMap="BaseResultMap">
+    <select id="casestart" parameterType="list" resultMap="BaseResultMap">
         select a.id,
                a.caseTitle,
                a.caserequest,
@@ -100,7 +100,12 @@
                b.method
         from caselist a
                  join interface b on a.interfaceid = b.id
-        where a.id = #{id}
-          and a.enabled = true
+        <where>
+            <foreach collection="id" open="a.id in(" close=")" item="ids" separator=",">
+                #{ids}
+            </foreach>
+            and a.enabled = true
+        </where>
+
     </select>
 </mapper>

@@ -55,7 +55,7 @@ public class CaselistServiceImpl extends ServiceImpl<CaselistMapper, Caselist> i
     }
     @Description("通过id查询执行的case数据")
     @Override
-    public Caselist casestart(Integer id){
+    public List<Caselist> casestart(List<Integer> id){
         return caselistMapper.casestart(id);
     }
 }

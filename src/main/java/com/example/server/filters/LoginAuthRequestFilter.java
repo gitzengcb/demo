@@ -53,10 +53,9 @@ public class LoginAuthRequestFilter implements AuthFilter {
 //                || requestSpec.getURI().contains(UrlPath.DEFAULT_LOCATION)
 //        ||requestSpec.getHeaders().hasHeaderWithName("Authorization")
 //        ||requestSpec.getCookies().
-        ||requestSpec.getCookies().hasCookieWithName("test_hbos_token")
-        ){
+        ||requestSpec.getCookies().hasCookieWithName("test_hbos_token")){
             logger.info(requestSpec.getURI() + " API IS AUTHOR");//打印接口名
-        }else {
+        } else {
             requestSpec.contentType(ContentType.JSON);//加contentType信息头
             requestSpec = restAssuredLogin(requestSpec);//调登陆接口
         }
