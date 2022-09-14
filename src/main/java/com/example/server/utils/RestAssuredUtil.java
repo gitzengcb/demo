@@ -28,13 +28,13 @@ public class RestAssuredUtil {
     private static RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder();
 
 
-    @PostConstruct
+    @PostConstruct//启动时初始化
     public void init(){
 
-        requestSpecBuilder.setBaseUri(ServerHosts.SERVER_HOST);
-        requestSpec = requestSpecBuilder.build();
+//        requestSpecBuilder.setBaseUri(ServerHosts.SERVER_HOST);
+//        requestSpec = requestSpecBuilder.build();
 
-        System.out.println("初始化域名："+ServerHosts.SERVER_HOST);
+//        System.out.println("初始化域名："+ServerHosts.SERVER_HOST);
         //add logging filter when then servlet init
         RestAssured.filters(new LoginAuthRequestFilter(),new RequestLoggingFilter(), new ResponseLoggingFilter());
 

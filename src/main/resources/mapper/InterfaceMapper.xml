@@ -16,15 +16,15 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, classificationid, interfaceName, interfaceUrl, method, createtime, updateTime, enabled
+        id, classificationid, interfaceName, interfaceUrl, method, createtime, updateTime, enabled,domainname
     </sql>
     <insert id="insert" parameterType="com.example.server.pojo.Interface">
-        insert into interface(classificationid,interfaceName,interfaceUrl,method,createtime)
-        values (#{classificationid},#{interfaceName},#{interfaceUrl},#{method},#{createtime})
+        insert into interface(classificationid,interfaceName,interfaceUrl,method,createtime,domainname)
+        values (#{classificationid},#{interfaceName},#{interfaceUrl},#{method},#{createtime},#{domainname})
     </insert>
     <update id="update" parameterType="com.example.server.pojo.Interface">
         update interface set classificationid=#{classificationid},interfaceName=#{interfaceName},interfaceUrl=#{interfaceUrl},
-        method=#{method},updateTime=#{updateTime} where id=#{id}
+        method=#{method},updateTime=#{updateTime},domainname=#{domainname} where id=#{id}
     </update>
     <update id="delete" parameterType="com.example.server.pojo.Interface">
         update interface set enabled=false where id=#{id}

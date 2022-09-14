@@ -1,9 +1,12 @@
 package com.example.server.pojo;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sun.xml.xsom.impl.scd.Iterators;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class variable {
     private Report report = new Report();

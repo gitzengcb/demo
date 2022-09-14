@@ -2,6 +2,9 @@ package com.example.server.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.server.constant.ServerHosts;
+import com.example.server.constant.UrlPath;
+import com.example.server.filters.LoginAuthRequestFilter;
 import com.example.server.pojo.*;
 import com.example.server.publics.RespBean;
 import com.example.server.service.ICaselistService;
@@ -11,6 +14,8 @@ import com.example.server.service.ISceneclassificationService;
 import com.example.server.utils.RestAssuredUtil;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import io.restassured.specification.FilterableRequestSpecification;
+import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,14 +44,11 @@ import static io.restassured.RestAssured.given;
 public class ReportController {
     private static Logger logger = LoggerFactory.getLogger(ReportController.class);
     private static Map<String, Object> date = new HashMap<>();
-//    private static JSONObject jsonrequest =new JSONObject();
-//    private static JSONObject jsonHeader =new JSONObject();
-//    private static JSONObject jsonInputParameter =new JSONObject();
-//    private static JSONObject jsonOutputParameter =new JSONObject();
-//    private static JSONObject responsebody =new JSONObject();
-//    private static Report report=new Report();
-//    private static Failcase failcase=new Failcase();
-//    private static List<Failcase> failcaselist=new ArrayList<>();
+
+    public static Map<String,Object> headersmap;
+    public static String url;//域名
+
+
 
     @Autowired
     IReportService reportService;
@@ -58,11 +60,14 @@ public class ReportController {
     ICaselistService caselistService;
     @Autowired
     IFailcaseService failcaseService;
+    @Autowired
+    LoginAuthRequestFilter loginAuthRequestFilter;
+
 //执行任务
     @PostMapping("startcase")
     public RespBean startcase(@RequestBody Performtasks performtasks) {
         logger.error("");
-        variable variablelist = new variable();
+        variable variablelist = new variable();//初始化参数套装
         //用例方法执行
         if (!scenestart(performtasks,variablelist)){
             return RespBean.error("执行场景不能为空");
@@ -99,9 +104,29 @@ public class ReportController {
         variablelist.setFailcaselist(new ArrayList<>());
 //        failcaselist=new ArrayList<>();
     }
-//通过请求方式(get&post)走向不同的接口api
+
+////域名获取
+//    public static String domainname(){
+//        System.out.println("域名获取成功："+url);
+//        return url;
+//    }
+//    //信息头获取
+//    public static Map HeadersMap(){
+//        return headersmap;
+//    }
+
+
+//通过请求方式(get&post)走向不同的请求方法里
     private void casetest(Caselist caselist,variable variablelist) {
         Report report = variablelist.getReport();
+
+//获取传给信息头与域名的值
+        url=caselist.getFace().getDomainname();
+        for (Map.Entry<String,Object> entry: variablelist.getJsonHeader().entrySet()){
+            headersmap.put(entry.getKey(),entry.getValue());
+        }
+
+
         if (caselist.getFace().getMethod().equals("post")) {
             report.setBasesum(report.getBasesum()+1);
             Posttest(caselist,variablelist);
@@ -158,6 +183,11 @@ public class ReportController {
                 System.out.println("输入参数修改"+s+"...."+jsonInputParameter.get(s));
             }
         }
+//        try {
+//
+//        }catch (Exception e){
+//            logger.error(e.toString());
+//        }
 
         Response response=
                 given()
@@ -171,6 +201,9 @@ public class ReportController {
                         .extract()
                         .response();
         responsetest(response,caselist,variablelist);
+
+
+
     }
 
 

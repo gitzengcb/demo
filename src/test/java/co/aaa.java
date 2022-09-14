@@ -1,18 +1,42 @@
 package co;
 
+import com.example.server.pojo.Performtasks;
 import com.example.server.utils.RestAssuredUtil;
 import io.restassured.response.Response;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import static io.restassured.RestAssured.given;
 
 public class aaa {
     public static void main(String[] args) throws Exception {
 
-//        Long timestamp = System.currentTimeMillis();
-//        String secret = "this is secret";
+
+        Performtasks performtasks = new Performtasks();
+
+
+        Scanner scanner = new Scanner(System.in);
+        String next = scanner.next();
+        System.out.println(next);
+        performtasks.setTasksname(next);
+        System.out.println(performtasks.getTasksname());
+
+
+
+
+
+
+
+
+
+
+//        Date date = new Date(System.currentTimeMillis());
+//        long time = date.getTime();
+//        System.out.println(new Date(time));
+
 //
 //        String stringToSign = timestamp + "\n" + secret;
 //        Mac mac = Mac.getInstance("HmacSHA256");
