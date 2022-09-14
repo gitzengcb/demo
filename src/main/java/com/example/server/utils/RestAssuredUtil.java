@@ -33,11 +33,11 @@ public class RestAssuredUtil {
 
     @PostConstruct
     public void init(){
-
-        requestSpecBuilder.setBaseUri(ServerHosts.SERVER_HOST);
-        requestSpec = requestSpecBuilder.build();
-
-        System.out.println("初始化域名："+ServerHosts.SERVER_HOST);
+//
+//        requestSpecBuilder.setBaseUri(ServerHosts.SERVER_HOST);
+//        requestSpec = requestSpecBuilder.build();
+//
+//        System.out.println("初始化域名："+ServerHosts.SERVER_HOST);
         //add logging filter when then servlet init
         RestAssured.filters(new LoginAuthRequestFilter(),new RequestLoggingFilter(), new ResponseLoggingFilter());
 

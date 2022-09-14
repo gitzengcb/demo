@@ -30,15 +30,7 @@ public class LoginAuthRequestFilter implements AuthFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginAuthRequestFilter.class);
     private static String logintoken = null;
-    private static String username=null;
-    private static String password=null;
-    private static String hosturl=null;
 
-    public void canshu(Performtasks performtasks) {
-        username=performtasks.getUsername();
-        password=performtasks.getPassword();
-        hosturl=performtasks.getHosturl();
-    }
 
 
 
