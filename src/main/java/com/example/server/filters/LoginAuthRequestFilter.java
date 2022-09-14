@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.server.constant.AuthorizationConstant;
 import com.example.server.constant.ServerHosts;
 import com.example.server.constant.UrlPath;
-import com.example.server.pojo.Performtasks;
-import com.example.server.utils.EncryptUtil;
 import io.restassured.filter.FilterContext;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -18,6 +16,8 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import static io.restassured.RestAssured.given;
+import com.example.server.controller.ReportController;
+import static io.restassured.RestAssured.proxy;
 
 /**
  *
@@ -30,32 +30,59 @@ public class LoginAuthRequestFilter implements AuthFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginAuthRequestFilter.class);
     private static String logintoken = null;
-
-
+    private static String url=null;
 
 
 
     @Override
     public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec, FilterContext ctx) {
-
-        requestSpec.baseUri(ServerHosts.SERVER_HOST);
+        requestSpec=domainnames(requestSpec);//多域名判断逻辑
+        requestSpec.baseUri(url);//去拿最新接口的域名
         replaceHeader(requestSpec);
 
-        if (requestSpec.getURI().contains(UrlPath.OAUTH_login)//判断是否是登陆接口
+        if (url=="http://hbos-test.cfuture.shop/"){
+            if (requestSpec.getURI().contains(UrlPath.OAUTH_login)//判断是否是登陆接口
 //                || requestSpec.getURI().contains(UrlPath.DEFAULT_LOCATION)
 //        ||requestSpec.getHeaders().hasHeaderWithName("Authorization")
 //        ||requestSpec.getCookies().
-        ||requestSpec.getCookies().hasCookieWithName("test_hbos_token")){
-            logger.info(requestSpec.getURI() + " API IS AUTHOR");//打印接口名
-        } else {
+                    ||requestSpec.getCookies().hasCookieWithName("test_hbos_token")
+            ){
+                logger.info(requestSpec.getURI() + " API IS AUTHOR");//打印接口名
+            }else {
+                requestSpec.contentType(ContentType.JSON);//加contentType信息头
+
+                requestSpec = restAssuredLogin(requestSpec);//调登陆接口
+            }
+        }else {
             requestSpec.contentType(ContentType.JSON);//加contentType信息头
-            requestSpec = restAssuredLogin(requestSpec);//调登陆接口
         }
+
+
 
         return ctx.next(requestSpec, responseSpec);
     }
+    private FilterableRequestSpecification domainnames(FilterableRequestSpecification requestSpec){
+        if (url==null){
+            url=ReportController.url;
+        } else if (url!=ReportController.url){
+            requestSpec.removeCookies();
+            requestSpec.removeHeaders();
+            url=ReportController.url;
+            requestSpec.headers(ReportController.headersmap);
 
-    public  FilterableRequestSpecification restAssuredLogin(FilterableRequestSpecification requestSpec) {
+            System.out.println("headers:"+requestSpec.getHeaders());
+        }else {
+            System.out.println("域名不变");
+        }
+        return requestSpec;
+    }
+
+
+
+
+
+
+    public FilterableRequestSpecification restAssuredLogin(FilterableRequestSpecification requestSpec) {
 
         logintoken = doRestAssuredAuth(requestSpec);//调登陆接口并获取登陆的logintoken
         if (logintoken != null){
@@ -78,11 +105,7 @@ public class LoginAuthRequestFilter implements AuthFilter {
 //        String encryptPassword = EncryptUtil.encrypt(AuthorizationConstant.PASSWORD, AuthorizationConstant.PUBLIC_KEY);
         JSONObject requestParams = new JSONObject();
         requestParams.put("accountNo", AuthorizationConstant.USER_NAME);
-//        requestParams.put("accountNo", username);
         requestParams.put("password", AuthorizationConstant.PASSWORD);
-//        requestParams.put("password", password);
-
-//        System.out.println("登陆账户："+username+"/"+password);
         String token =
                 given().
                         body(requestParams.toJSONString()).
@@ -93,7 +116,6 @@ public class LoginAuthRequestFilter implements AuthFilter {
                         path("data.token");
         return token;
     }
-
 
 //    private void getDefaultLocation() {
 //

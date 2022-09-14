@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.server.constant.ServerHosts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class variable {
     private Report report = new Report();

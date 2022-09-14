@@ -3,6 +3,9 @@ package com.example.server.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.server.constant.ServerHosts;
+import com.example.server.constant.UrlPath;
+import com.example.server.filters.LoginAuthRequestFilter;
+import com.example.server.constant.ServerHosts;
 import com.example.server.filters.LoginAuthRequestFilter;
 import com.example.server.pojo.*;
 import com.example.server.publics.RespBean;
@@ -10,6 +13,8 @@ import com.example.server.service.*;
 import com.example.server.utils.RestAssuredUtil;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import io.restassured.specification.FilterableRequestSpecification;
+import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +44,14 @@ public class ReportController {
     private static Logger logger = LoggerFactory.getLogger(ReportController.class);
     private static Map<String, Object> date = new HashMap<>();
 
+    public static Map<String,Object> headersmap;
+    public static String url;//域名
+
+
+
     @Autowired
     IReportService reportService;
-    //    @Autowired(required = false)
+//    @Autowired(required = false)
 //    Report report;
     @Autowired
     ISceneclassificationService sceneclassificationService;
@@ -108,16 +118,36 @@ public class ReportController {
         variablelist.setFailcaselist(new ArrayList<>());
 //        failcaselist=new ArrayList<>();
     }
-    //通过请求方式(get&post)走向不同的接口api
-    private void casetest(Caselist caselist, variable variablelist) {
+
+////域名获取
+//    public static String domainname(){
+//        System.out.println("域名获取成功："+url);
+//        return url;
+//    }
+//    //信息头获取
+//    public static Map HeadersMap(){
+//        return headersmap;
+//    }
+
+
+//通过请求方式(get&post)走向不同的请求方法里
+    private void casetest(Caselist caselist,variable variablelist) {
         Report report = variablelist.getReport();
+
+//获取传给信息头与域名的值
+        url=caselist.getFace().getDomainname();
+        for (Map.Entry<String,Object> entry: variablelist.getJsonHeader().entrySet()){
+            headersmap.put(entry.getKey(),entry.getValue());
+        }
+
+
         if (caselist.getFace().getMethod().equals("post")) {
-            report.setBasesum(report.getBasesum() + 1);
-            Posttest(caselist, variablelist);
+            report.setBasesum(report.getBasesum()+1);
+            Posttest(caselist,variablelist);
             System.out.println("执行post");
-        } else if (caselist.getFace().getMethod().equals("get")) {
-            report.setBasesum(report.getBasesum() + 1);
-            Gettest(caselist, variablelist);
+        } else if (caselist.getFace().getMethod().equals("get")){
+            report.setBasesum(report.getBasesum()+1);
+            Gettest(caselist,variablelist);
             System.out.println("执行get");
         } else {
             logger.error(caselist.getCaseTitle() + "请求方式只能支持post与get");
@@ -181,8 +211,9 @@ public class ReportController {
         responseAsserts(response, caselist, variablelist);//断言
     }
 
+
     //断言
-    private void responseAsserts(Response response, Caselist caselist, variable variablelist) {
+    private void responseAsserts(Response response,Caselist caselist,variable variablelist) {
         JsonPath path = response.body().jsonPath();
         Report report = variablelist.getReport();
         JSONObject jsonOutputParameter = variablelist.getJsonOutputParameter();
