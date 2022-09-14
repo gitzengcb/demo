@@ -35,11 +35,11 @@ public class Interface implements Serializable {
     private Integer classificationid;
     @ApiModelProperty(value = "接口名称")
     @NotBlank(message = "接口名称不能为空")
-    @Length(message = "接口名称长度不能大于{max}",max=50)
+    @Length(message = "接口名称长度不能大于{max}",max=500)
     private String interfaceName;
     @ApiModelProperty(value = "接口url")
     @NotBlank(message = "接口url不能为空")
-    @Length(message = "接口url长度不能大于{max}",max=50)
+    @Length(message = "接口url长度不能大于{max}",max=500)
     private String interfaceUrl;
     @ApiModelProperty(value = "请求方式")
     @NotBlank(message = "请求方式不能为空")
@@ -51,7 +51,18 @@ public class Interface implements Serializable {
     private LocalDateTime updateTime;
 
     private Boolean enabled;
+    @ApiModelProperty(value = "域名")
+    @NotBlank(message = "域名不能为空")
+    @Length(message = "域名长度不能大于{max}",max=50)
+    private String domainname;
 
+    public String getDomainname() {
+        return domainname;
+    }
+
+    public void setDomainname(String domainname) {
+        this.domainname = domainname;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -132,6 +143,7 @@ public class Interface implements Serializable {
                 ", createtime=" + createtime +
                 ", updateTime=" + updateTime +
                 ", enabled=" + enabled +
+                ", domainname='" + domainname + '\'' +
                 '}';
     }
 }
