@@ -40,7 +40,7 @@ public class ParameterConfigurationController {
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
 
-        parameterConfiguration.setCreatetime(LocalDateTime.now().plusHours(14));
+        parameterConfiguration.setCreatetime(LocalDateTime.now().plusHours(13));
         parameterConfigurationService.insert(parameterConfiguration);
         return RespBean.sucess("新增配置成功");
     }
@@ -59,7 +59,7 @@ public class ParameterConfigurationController {
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
 
-        parameterConfiguration.setCreatetime(LocalDateTime.now().plusHours(14));
+        parameterConfiguration.setCreatetime(LocalDateTime.now().plusHours(13));
         parameterConfigurationService.update(parameterConfiguration);
         return RespBean.sucess("新增配置成功");
     }

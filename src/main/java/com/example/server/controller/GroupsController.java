@@ -39,7 +39,7 @@ public class GroupsController {
         if (bindingResult.hasErrors()){
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-        groups.setCreatetime(LocalDateTime.now().plusHours(14));
+        groups.setCreatetime(LocalDateTime.now().plusHours(13));
         groupsService.insert(groups);
 
         return RespBean.sucess("新增成功");

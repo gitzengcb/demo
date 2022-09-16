@@ -52,7 +52,7 @@ public class BuglistController {
         }else {
             logger.info(buglist.getBugtitle());
         }
-        buglist.setCreatetime(LocalDateTime.now().plusHours(14));
+        buglist.setCreatetime(LocalDateTime.now().plusHours(13));
         int id = buglistService.insert(buglist);
         HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
         objectObjectHashMap.put("id",id);
@@ -71,7 +71,7 @@ public class BuglistController {
         } else {
             logger.info(buglist.getBugtitle());
         }
-        buglist.setUpdatetime(LocalDateTime.now().plusHours(14));
+        buglist.setUpdatetime(LocalDateTime.now().plusHours(13));
         buglistService.buglistupdate(buglist);
         return RespBean.sucess("修改成功");
     }

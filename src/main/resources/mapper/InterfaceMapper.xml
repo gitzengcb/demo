@@ -12,6 +12,7 @@
         <result column="createtime" property="createtime" />
         <result column="updateTime" property="updateTime" />
         <result column="enabled" property="enabled" />
+        <result column="domainname" property="domainname"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

@@ -40,7 +40,7 @@ public class ClassificationController {
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
 
-        inputlist.setCreatetime(LocalDateTime.now().plusHours(14));
+        inputlist.setCreatetime(LocalDateTime.now().plusHours(13));
         classificationService.insertClass(inputlist);
         return RespBean.sucess("新增分类成功");
 
@@ -57,7 +57,7 @@ public class ClassificationController {
             return RespBean.error("父id不能为空");
         }
 
-        inputlist.setUpdatetime(LocalDateTime.now().plusHours(14));
+        inputlist.setUpdatetime(LocalDateTime.now().plusHours(13));
         classificationService.updateClass(inputlist);
         return RespBean.sucess("修改分类成功");
     }

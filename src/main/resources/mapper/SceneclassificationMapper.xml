@@ -17,7 +17,7 @@
         id, superiorid, scenename, createtime, updateTime, enabled,casegroup
     </sql>
     <insert id="insert" parameterType="com.example.server.pojo.Sceneclassification">
-        insert into sceneclassification (superiorid,scenename,createtime)
+        insert into sceneclassification (superiorid,scenename,createtime,)
          values(#{superiorid},#{scenename},#{createtime})
     </insert>
     <update id="update" parameterType="com.example.server.pojo.Sceneclassification">

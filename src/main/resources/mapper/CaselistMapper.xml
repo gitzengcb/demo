@@ -24,6 +24,7 @@
             <result column="interfaceName" property="interfaceName"/>
             <result column="interfaceUrl" property="interfaceUrl"/>
             <result column="method" property="method"/>
+            <result column='domainname' property="domainname"/>
             <!--            <result column="createtime" property="createtime" />-->
             <!--            <result column="updateTime" property="updateTime" />-->
             <!--            <result column="enabled" property="enabled" />-->
@@ -81,7 +82,7 @@
           and enabled = true
     </select>
 
-    <select id="casestart" parameterType="list" resultMap="BaseResultMap">
+    <select id="casestart" parameterType="integer"  resultMap="BaseResultMap">
         select a.id,
                a.caseTitle,
                a.caserequest,
@@ -97,15 +98,14 @@
                b.classificationid,
                b.interfaceName,
                b.interfaceUrl,
-               b.method
-        from caselist a
-                 join interface b on a.interfaceid = b.id
-        <where>
-            <foreach collection="id" open="a.id in(" close=")" item="ids" separator=",">
-                #{ids}
-            </foreach>
-            and a.enabled = true
-        </where>
-
+               b.method,
+               b.domainname
+        from caselist a join interface b on a.interfaceid = b.id where a.id=#{id} and a.enabled = true
     </select>
 </mapper>
+<!--<where>-->
+<!--<foreach collection="id" open="a.id in(" close=")" item="ids" separator=",">-->
+<!--    #{ids}-->
+<!--</foreach>-->
+<!--and a.enabled = true-->
+<!--</where>-->

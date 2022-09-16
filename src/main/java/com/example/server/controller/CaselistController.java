@@ -48,7 +48,7 @@ public class CaselistController {
 //        System.out.println("变参数body："+jsonObject);
 //        caselist.setCaserequest(jsonObject.toString());
 
-        caselist.setCreatetime(LocalDateTime.now().plusHours(14));
+        caselist.setCreatetime(LocalDateTime.now().plusHours(13));
         caselistService.insertcase(caselist);
         return RespBean.sucess("新增成功");
     }
@@ -57,7 +57,7 @@ public class CaselistController {
         if (bindingResult.hasErrors()){
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-        caselist.setUpdateTime(LocalDateTime.now().plusHours(14));
+        caselist.setUpdateTime(LocalDateTime.now().plusHours(13));
         caselistService.updatecase(caselist);
         return RespBean.sucess("修改用例成功");
     }

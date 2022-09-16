@@ -30,7 +30,7 @@ public class LoginAuthRequestFilter implements AuthFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginAuthRequestFilter.class);
     private static String logintoken = null;
-    private static String url=null;
+    private static String url="http://hbos-test.cfuture.shop/";
 
 
 
@@ -40,7 +40,7 @@ public class LoginAuthRequestFilter implements AuthFilter {
         requestSpec.baseUri(url);//去拿最新接口的域名
         replaceHeader(requestSpec);
 
-        if (url=="http://hbos-test.cfuture.shop/"){
+        if (url.equals("http://hbos-test.cfuture.shop/")){
             if (requestSpec.getURI().contains(UrlPath.OAUTH_login)//判断是否是登陆接口
 //                || requestSpec.getURI().contains(UrlPath.DEFAULT_LOCATION)
 //        ||requestSpec.getHeaders().hasHeaderWithName("Authorization")
@@ -62,16 +62,20 @@ public class LoginAuthRequestFilter implements AuthFilter {
         return ctx.next(requestSpec, responseSpec);
     }
     private FilterableRequestSpecification domainnames(FilterableRequestSpecification requestSpec){
-        if (url==null){
-            url=ReportController.url;
-        } else if (url!=ReportController.url){
+        if (!url.equals(ReportController.url)){
             requestSpec.removeCookies();
-            requestSpec.removeHeaders();
+//            requestSpec.removeHeaders();
             url=ReportController.url;
-            requestSpec.headers(ReportController.headersmap);
 
-            System.out.println("headers:"+requestSpec.getHeaders());
-        }else {
+            if (!ReportController.headersmap.isEmpty()){
+                requestSpec.headers(ReportController.headersmap);
+            }
+
+            System.out.println("headers===="+requestSpec.getHeaders());
+        } else {
+            if (!ReportController.headersmap.isEmpty()){
+                requestSpec.headers(ReportController.headersmap);
+            }
             System.out.println("域名不变");
         }
         return requestSpec;

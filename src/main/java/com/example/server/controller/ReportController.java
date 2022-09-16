@@ -44,7 +44,7 @@ public class ReportController {
     private static Logger logger = LoggerFactory.getLogger(ReportController.class);
     private static Map<String, Object> date = new HashMap<>();
 
-    public static Map<String,Object> headersmap;
+    public static Map<String,Object> headersmap=new HashMap<>();
     public static String url;//域名
 
 
@@ -83,7 +83,7 @@ public class ReportController {
         map.put("Errorsum", report.getErrorsum());
         map.put("Successfullist", report.getSuccessfullist());
         map.put("Failurelist", report.getFailurelist());
-        report.setCreate_time(LocalDateTime.now().plusHours(14));
+        report.setCreate_time(LocalDateTime.now().plusHours(13));
         reportService.insertreport(report);//报告插入数据库
         logger.info(report.toString());
 
@@ -119,16 +119,6 @@ public class ReportController {
 //        failcaselist=new ArrayList<>();
     }
 
-////域名获取
-//    public static String domainname(){
-//        System.out.println("域名获取成功："+url);
-//        return url;
-//    }
-//    //信息头获取
-//    public static Map HeadersMap(){
-//        return headersmap;
-//    }
-
 
 //通过请求方式(get&post)走向不同的请求方法里
     private void casetest(Caselist caselist,variable variablelist) {
@@ -136,11 +126,15 @@ public class ReportController {
 
 //获取传给信息头与域名的值
         url=caselist.getFace().getDomainname();
+
+//        headersmap.clear();
         for (Map.Entry<String,Object> entry: variablelist.getJsonHeader().entrySet()){
             headersmap.put(entry.getKey(),entry.getValue());
         }
+        System.out.println("取值成功URL="+url+"/"+"headersmap="+headersmap);
 
 
+//通过请求方式(get&post)走向不同的请求方法里
         if (caselist.getFace().getMethod().equals("post")) {
             report.setBasesum(report.getBasesum()+1);
             Posttest(caselist,variablelist);
@@ -357,7 +351,7 @@ public class ReportController {
         }
 
         failcase.setCaseid(caselist.getId());
-        failcase.setCreatetime(LocalDateTime.now().plusHours(14));
+        failcase.setCreatetime(LocalDateTime.now().plusHours(13));
         failcase.setErrorlog(print);
         failcaselist.add(failcase);
     }
@@ -415,7 +409,17 @@ public class ReportController {
                 list.add(Integer.parseInt(cs));
             }
 
-            List<Caselist> caselist = caselistService.casestart(list);
+
+            List<Caselist> caselist=new ArrayList<>();//装用例集
+            for (Integer id:list){
+                caselist.addAll(caselistService.casestart(id));
+            }
+
+            for (Caselist cs:caselist){
+                System.out.println("用例："+cs);
+            }
+
+
 
 
             //循环执行case
@@ -440,8 +444,8 @@ public class ReportController {
     @GetMapping("/selectreport")
     public RespBean selectreport() {
         Map<String, LocalDateTime> map = new HashMap<>();
-        map.put("starttime", LocalDateTime.now().plusDays(-7).plusHours(14));
-        map.put("endtime", LocalDateTime.now().plusHours(14));
+        map.put("starttime", LocalDateTime.now().plusDays(-7).plusHours(13));
+        map.put("endtime", LocalDateTime.now().plusHours(13));
 
         List<Report> reportlist = reportService.selectreportlist(map);
         List<Map> list = new ArrayList<>();

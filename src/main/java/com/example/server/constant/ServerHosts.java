@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import sun.security.pkcs11.P11Util;
 
 /**
  * Created by KentZhong on 2018/10/18.
@@ -51,14 +50,6 @@ public class ServerHosts {
         this.hosturl = hosturl;
     }
 
-    @Override
-    public String toString() {
-        return "ServerHosts{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", hosturl='" + hosturl + '\'' +
-                '}';
-    }
     @Value("${hbos.host}")
     public void setPermissionHost(String permissionHost){
         SERVER_HOST = permissionHost;

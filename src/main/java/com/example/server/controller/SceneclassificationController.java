@@ -36,7 +36,7 @@ public class SceneclassificationController {
         if (bindingResult.hasErrors()) {
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-        sceneclassification.setCreatetime(LocalDateTime.now().plusHours(14));
+        sceneclassification.setCreatetime(LocalDateTime.now().plusHours(13));
         sceneclassificationService.insertscene(sceneclassification);
         return RespBean.sucess("新增场景成功");
     }
@@ -46,7 +46,7 @@ public class SceneclassificationController {
         if (bindingResult.hasErrors()) {
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-        sceneclassification.setUpdateTime(LocalDateTime.now().plusHours(14));
+        sceneclassification.setUpdateTime(LocalDateTime.now().plusHours(13));
         sceneclassificationService.updatescene(sceneclassification);
         return RespBean.sucess("修改成功");
     }

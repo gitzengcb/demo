@@ -27,5 +27,5 @@ public interface CaselistMapper extends BaseMapper<Caselist> {
 
     List<Caselist> vaguecase(Caselist caselist);
 
-    List<Caselist> casestart(@Param("id") List<Integer> id);
+    List<Caselist> casestart(@Param("id") Integer id);
 }
