@@ -138,14 +138,14 @@ public class ReportController {
         if (caselist.getFace().getMethod().equals("post")) {
             report.setBasesum(report.getBasesum()+1);
             Posttest(caselist,variablelist);
-            System.out.println("执行post");
+
         } else if (caselist.getFace().getMethod().equals("get")){
             report.setBasesum(report.getBasesum()+1);
             Gettest(caselist,variablelist);
-            System.out.println("执行get");
+
         } else {
             logger.error(caselist.getCaseTitle() + "请求方式只能支持post与get");
-            System.out.println("请求方式只能支持post与get");
+
         }
     }
     private void Gettest(Caselist caselist, variable variablelist) {
@@ -413,10 +413,6 @@ public class ReportController {
             List<Caselist> caselist=new ArrayList<>();//装用例集
             for (Integer id:list){
                 caselist.addAll(caselistService.casestart(id));
-            }
-
-            for (Caselist cs:caselist){
-                System.out.println("用例："+cs);
             }
 
 

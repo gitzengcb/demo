@@ -9,15 +9,31 @@ import java.util.*;
 import static io.restassured.RestAssured.given;
 
 public class aaa {
+
+    public void ss(){
+
+    }
+
+
     public static void main(String[] args) throws Exception {
 
 
+//        System.out.println(k);
 
-        String s=null;
-        if (s==null){
-            System.out.println(s);
-
-        }
+//        Map<Object, Object> objectObjectHashMap = new HashMap<>();
+//        objectObjectHashMap.put("sdgs","sdgsg");
+//        List<Object> objects = new ArrayList<>();
+//        Set<Object> objects1 = new HashSet<>();
+//        objects.add(3);
+//        objects.add(36);
+//        objects.add(35);
+//        objects1.add(1);
+//        objects1.add("开");
+//        objects1.add("啊");
+//        objects1.add(235);
+//        System.out.println(objects.containsAll(objects));
+//        System.out.println(objects.indexOf(36));
+//        System.out.println(objects1);
 
 
 //        Buglist buglist = new Buglist();
@@ -110,8 +126,20 @@ public class aaa {
 //        System.out.println(z.toLowerCase());
 //        System.out.println(z.toUpperCase());
 //        System.out.println(z.substring(2));
+        String a="25羟基维生素D,B型利钠肽N端片段,B淋巴细胞百分比(CD19),I型胶原羧基端肽β交联肽(β-cTX),NK细胞百分比(CD16+56),T抑制细胞百分比(CD8),T淋巴细胞百分比(CD3),T辅助细胞百分比(CD4),α肿瘤坏死因子（αTNF）,γ-谷胺酰基转移酶(γ-GT),三碘甲状腺原氨酸(T3),丙氨酸氨基转移酶（ALT）,乳酸脱氢酶(LDH),二氧化碳结合力(CO2-CP),人附睾蛋白4(HE4),低密度脂蛋白胆固醇(LDL-ch),促甲状腺激素受体抗体(TRAb),免疫球蛋白IgA(IgA）,免疫球蛋白IgE(IgE),免疫球蛋白IgG(IgG）,免疫球蛋白IgG4,免疫球蛋白IgM(IgM),凝血酶原时间测定（PT）,前白蛋白(PA),同型半胱氨酸(HCY),尿微量白蛋白（随机尿）,尿液有形成份检查,尿液物理化学检查,尿素(BU),尿肌酐（随机尿）,尿酸(UA),心肌肌钙蛋白T,总胆固醇(Tch),总胆汁酸(TBA),总胆红素(TB),总蛋白Tp,抗甲状腺球蛋白抗体(anti-TG),抗甲状腺过氧化物酶抗体(Anti-TPO),抗缪勒管激素（AMH）检测";
+        String b="乳酸脱氢酶(LDH),二氧化碳结合力(CO2-CP),人附睾蛋白4(HE4),低密度脂蛋白胆固醇(LDL-ch),sdf,sdgdfhg";
 
+        String[] strings=a.split(",");
+        String[] strings2=b.split(",");
+        String c;
+        for (String s:strings ){
+            for (String g:strings2){
+                if (s.equals(g)){
+                    System.out.println(s);
+                }
+            }
 
+        }
 
 
 
