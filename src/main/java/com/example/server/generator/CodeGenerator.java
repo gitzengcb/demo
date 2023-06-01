@@ -38,10 +38,10 @@ public class CodeGenerator {
 
         //数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://47.101.191.102:3306/helloinfo?useUnicode=true&characterEncoding=UTF-8&useSSL=false");
+        dsc.setUrl("jdbc:mysql://localhost:3306/ccb?useUnicode=true&characterEncoding=UTF-8&useSSL=false");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("zeng&123aA");
+        dsc.setPassword("123456aa");
         mpg.setDataSource(dsc);
 
         //包配置

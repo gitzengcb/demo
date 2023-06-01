@@ -1,6 +1,7 @@
 package com.example.server.controller;
 
 
+import com.example.server.generator.TreeStructure;
 import com.example.server.pojo.Classification;
 import com.example.server.publics.RespBean;
 import com.example.server.service.IClassificationService;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 
 /**
  * <p>
@@ -72,33 +74,20 @@ public class ClassificationController {
     @GetMapping("select/Classification")
     public RespBean selectClassification(){
         List<Classification> alllist = classificationService.selectClass();
-        List<Classification> trees = tree(alllist);
+
+        if (alllist.isEmpty()){
+            return RespBean.sucess("查询成功",null);
+        }
+
+        List<Classification> trees =new TreeStructure().tree(alllist);
         HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
+
         objectObjectHashMap.put("ClassList",trees);
+
         return RespBean.sucess("查询成功",objectObjectHashMap);
     }
 
-    private List<Classification> tree(List<Classification> alllist) {
-        List<Classification> listtree = new ArrayList<>();
-        for (Classification classification:alllist){
-            if (classification.getSuperiorid()==0){
-                classification.setClasslist(treelist(alllist,classification.getId()));
-                listtree.add(classification);
-            }
-        }
-        return listtree;
-    }
 
-    private List<Classification> treelist(List<Classification> alllist, Integer id) {
-        List<Classification> zitree = new ArrayList<>();
-        for (Classification ov:alllist){
-            if (ov.getSuperiorid().equals(id)){
-                ov.setClasslist(treelist(alllist,ov.getId()));
-                zitree.add(ov);
-            }
-        }
-        return zitree;
-    }
 
 
 }

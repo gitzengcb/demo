@@ -50,11 +50,19 @@ public class Interface implements Serializable {
 
     private LocalDateTime updateTime;
 
-    private Boolean enabled;
+    private Integer isdelete;
     @ApiModelProperty(value = "域名")
     @NotBlank(message = "域名不能为空")
     @Length(message = "域名长度不能大于{max}",max=50)
     private String domainname;
+
+    public Integer getIsdelete() {
+        return isdelete;
+    }
+
+    public void setIsdelete(Integer isdelete) {
+        this.isdelete = isdelete;
+    }
 
     public String getDomainname() {
         return domainname;
@@ -96,9 +104,6 @@ public class Interface implements Serializable {
         return updateTime;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
-    }
 
     public void setId(Integer id) {
         this.id = id;
@@ -128,9 +133,6 @@ public class Interface implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
 
     @Override
     public String toString() {
@@ -142,7 +144,7 @@ public class Interface implements Serializable {
                 ", method='" + method + '\'' +
                 ", createtime=" + createtime +
                 ", updateTime=" + updateTime +
-                ", enabled=" + enabled +
+                ", isdelete=" + isdelete +
                 ", domainname='" + domainname + '\'' +
                 '}';
     }

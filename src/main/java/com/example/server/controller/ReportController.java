@@ -156,6 +156,11 @@ public class ReportController {
         if (StringUtils.isNotEmpty(inputlist)){
             String[] split = inputlist.split(",");
             for (String str:split){
+                if (jsonrequest.containsKey(str)){
+                    return;
+                }
+
+
                 jsonrequest.put(str,variablelist.getResponsebody().get(str));
             }
 

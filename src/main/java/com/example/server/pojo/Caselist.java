@@ -41,7 +41,7 @@ public class Caselist implements Serializable {
     @ApiModelProperty(value = "入参变量名称，中间“,”连接")
     private String inputParameter;
 
-    @ApiModelProperty(value = "出参变量名称，中间“,”连接")
+    @ApiModelProperty(value = "取response中数据的key，中间“,”连接")
     private String outputParameter;
 
     @ApiModelProperty(value = "header信息头")
@@ -55,15 +55,17 @@ public class Caselist implements Serializable {
 
     @ApiModelProperty(value = "变量key")
     private String inputlist;
+
     private LocalDateTime createtime;
 
     private LocalDateTime updateTime;
 
-    private Boolean enabled;
+    private Integer isdelete;
     @ApiModelProperty(value = "接口id")
     private int interfaceid;
     @ApiModelProperty(value = "断言类型")
     private String asserttype;
+
     @ApiModelProperty(value = "接口")
     private Interface face;
 
@@ -81,11 +83,19 @@ public class Caselist implements Serializable {
                 ", inputlist='" + inputlist + '\'' +
                 ", createtime=" + createtime +
                 ", updateTime=" + updateTime +
-                ", enabled=" + enabled +
+                ", isdelete=" + isdelete +
                 ", interfaceid=" + interfaceid +
                 ", asserttype='" + asserttype + '\'' +
                 ", face=" + face +
                 '}';
+    }
+
+    public Integer getIsdelete() {
+        return isdelete;
+    }
+
+    public void setIsdelete(Integer isdelete) {
+        this.isdelete = isdelete;
     }
 
     public Integer getId() {
@@ -174,14 +184,6 @@ public class Caselist implements Serializable {
 
     public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
     }
 
     public int getInterfaceid() {

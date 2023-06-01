@@ -40,22 +40,18 @@ public class Classification implements Serializable {
     @ApiModelProperty(value = "分类名称")
     @NotBlank(message = "分类名称不能为空")//String用这个判空
     @Length(message = "长度不能超过{max},不能少于{min}",max = 50,min =1 )
-    private String classification;
+    private String classname;
 
     private LocalDateTime createtime;
 
     private LocalDateTime updatetime;
 
-    private Boolean enabled;
+    private int isdelete;
 
     private List<Classification> Classlist;
 
     public List<Classification> getClasslist() {
         return Classlist;
-    }
-
-    public void setClasslist(List<Classification> classlist) {
-        Classlist = classlist;
     }
 
     public static long getSerialVersionUID() {
@@ -66,48 +62,52 @@ public class Classification implements Serializable {
         return id;
     }
 
-    public Integer getSuperiorid() {
-        return superiorid;
-    }
-
-    public String getClassification() {
-        return classification;
-    }
-
-    public LocalDateTime getCreatetime() {
-        return createtime;
-    }
-
-    public LocalDateTime getUpdatetime() {
-        return updatetime;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getSuperiorid() {
+        return superiorid;
     }
 
     public void setSuperiorid(Integer superiorid) {
         this.superiorid = superiorid;
     }
 
-    public void setClassification(String classification) {
-        this.classification = classification;
+    public String getClassname() {
+        return classname;
+    }
+
+    public void setClassname(String classname) {
+        this.classname = classname;
+    }
+
+    public LocalDateTime getCreatetime() {
+        return createtime;
     }
 
     public void setCreatetime(LocalDateTime createtime) {
         this.createtime = createtime;
     }
 
+    public LocalDateTime getUpdatetime() {
+        return updatetime;
+    }
+
     public void setUpdatetime(LocalDateTime updatetime) {
         this.updatetime = updatetime;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public int getIsdelete() {
+        return isdelete;
+    }
+
+    public void setIsdelete(int isdelete) {
+        this.isdelete = isdelete;
+    }
+
+    public void setClasslist(List<Classification> classlist) {
+        Classlist = classlist;
     }
 
     @Override
@@ -115,10 +115,10 @@ public class Classification implements Serializable {
         return "Classification{" +
                 "id=" + id +
                 ", superiorid=" + superiorid +
-                ", classification='" + classification + '\'' +
+                ", classname='" + classname + '\'' +
                 ", createtime=" + createtime +
                 ", updatetime=" + updatetime +
-                ", enabled=" + enabled +
+                ", isdelete=" + isdelete +
                 '}';
     }
 }
