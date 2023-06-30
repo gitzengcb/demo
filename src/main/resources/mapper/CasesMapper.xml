@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.server.mapper.CaselistMapper">
+<mapper namespace="com.example.server.mapper.CasesMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.server.pojo.Caselist">
+    <resultMap id="BaseResultMap" type="com.example.server.pojo.Cases">
         <id column="id" property="id"/>
         <result column="caseTitle" property="caseTitle"/>
         <result column="caserequest" property="caserequest"/>
-        <result column="inputParameter" property="inputParameter"/>
         <result column="outputParameter" property="outputParameter"/>
-        <result column="header" property="header"/>
+        <result column="headers" property="headers"/>
         <result column="asserts" property="asserts"/>
         <result column="assertresult" property="assertresult"/>
         <!--        <result column="createtime" property="createtime"/>-->
@@ -33,20 +32,18 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , caseTitle, caserequest, inputParameter, outputParameter, header, asserts, assertresult, createtime, updateTime, enabled,interfaceid,asserttype,inputlist
+        id , caseTitle, caserequest, outputParameter, headers, asserts, assertresult, createtime, updateTime, isdelete,interfaceid,asserttype,inputlist
     </sql>
-    <insert id="insert" parameterType="com.example.server.pojo.Caselist">
-        insert into caselist (caseTitle, caserequest, asserts, assertresult, createtime, interfaceid, asserttype,inputlist)
-        values (#{caseTitle}, #{caserequest}, #{asserts}, #{assertresult}, #{createtime}, #{interfaceid}, #{asserttype},#{inputlist})
+    <insert id="insert" parameterType="com.example.server.pojo.Cases">
+        insert into cases (caseTitle, caserequest,outputParameter,headers, asserts, assertresult, createtime, interfaceid, asserttype,inputlist)
+        values (#{caseTitle}, #{caserequest},#{outputParameter},#{headers}, #{asserts}, #{assertresult}, #{createtime}, #{interfaceid}, #{asserttype},#{inputlist})
     </insert>
-    <update id="update" parameterType="com.example.server.pojo.Caselist">
-        update caselist
+    <update id="update" parameterType="com.example.server.pojo.Cases">
+        update cases
         set caseTitle=#{caseTitle},
             caserequest=#{caserequest},
-            inputParameter=#{inputParameter},
             outputParameter=#{outputParameter},
-            header=#{header},
+            headers=#{headers},
             asserts=#{asserts},
             assertresult=#{assertresult},
             updateTime=#{updateTime},
@@ -55,40 +52,39 @@
             inputlist=#{inputlist}
         where id = #{id}
     </update>
-    <select id="select" parameterType="com.example.server.pojo.Caselist" resultType="com.example.server.pojo.Caselist">
+    <select id="select" parameterType="com.example.server.pojo.Cases" resultType="com.example.server.pojo.Cases">
         select *
-        from caselist
+        from cases
         where interfaceid = #{interfaceid}
-          and enabled = true
+          and isdelete = 0
     </select>
-    <update id="delete" parameterType="com.example.server.pojo.Caselist">
-        update caselist
-        set enabled= false
+    <update id="delete" parameterType="com.example.server.pojo.Cases">
+        update cases
+        set isdelete= 1
         where id = #{id}
     </update>
-    <select id="groupcase" resultType="com.example.server.pojo.Caselist">
-        select * from caselist
+    <select id="groupcase" resultType="com.example.server.pojo.Cases">
+        select * from cases
         <where>
             <foreach collection="id" open="id in(" close=")" item="ids" separator=",">
                 #{ids}
             </foreach>
         </where>
     </select>
-    <select id="vaguecase" parameterType="com.example.server.pojo.Caselist"
-            resultType="com.example.server.pojo.Caselist">
+    <select id="vaguecase" parameterType="com.example.server.pojo.Cases"
+            resultType="com.example.server.pojo.Cases">
         select *
-        from caselist
+        from cases
         where caseTitle like concat('%', #{caseTitle,jdbcType=VARCHAR}, '%')
-          and enabled = true
+          and isdelete = 0
     </select>
 
     <select id="casestart" parameterType="integer"  resultMap="BaseResultMap">
         select a.id,
                a.caseTitle,
                a.caserequest,
-               a.inputParameter,
                a.outputParameter,
-               a.header,
+               a.headers,
                a.asserts,
                a.assertresult,
                a.interfaceid,
@@ -100,7 +96,13 @@
                b.interfaceUrl,
                b.method,
                b.domainname
-        from caselist a join interface b on a.interfaceid = b.id where a.id=#{id} and a.enabled = true
+        from cases a join interface b on a.interfaceid = b.id
+        <where>
+            <foreach collection="id" open="id in(" close=")" item="ids" separator=",">
+                #{ids}
+            </foreach>
+            and a.isdelete = 0
+        </where>
     </select>
 </mapper>
 <!--<where>-->

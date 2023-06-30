@@ -31,7 +31,7 @@ public class Performtasks implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-    @NotBlank(message = "任务名称不能为空")
+//    @NotBlank(message = "任务名称不能为空")
     @Length(message = "任务名称长度不能超过50字符",max = 50)
     @ApiModelProperty(value = "执行任务名称")
     private String tasksname;
@@ -43,7 +43,7 @@ public class Performtasks implements Serializable {
 
     private LocalDateTime updateTime;
 
-    private Boolean enabled;
+    private Integer isdelete;
 
     private String username;
     private String password;
@@ -117,12 +117,12 @@ public class Performtasks implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public Integer getIsdelete() {
+        return isdelete;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setIsdelete(Integer isdelete) {
+        this.isdelete = isdelete;
     }
 
     @Override
@@ -133,7 +133,7 @@ public class Performtasks implements Serializable {
                 ", scenegroupid='" + scenegroupid + '\'' +
                 ", createtime=" + createtime +
                 ", updateTime=" + updateTime +
-                ", enabled=" + enabled +
+                ", isdelete=" + isdelete +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", hosturl='" + hosturl + '\'' +

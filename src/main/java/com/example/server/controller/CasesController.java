@@ -2,10 +2,10 @@ package com.example.server.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.server.pojo.Caselist;
+import com.example.server.pojo.Cases;
 import com.example.server.pojo.Sceneclassification;
 import com.example.server.publics.RespBean;
-import com.example.server.service.ICaselistService;
+import com.example.server.service.ICasesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,47 +30,47 @@ import java.util.List;
  */
 @RestController
 //@RequestMapping("/caselist")
-public class CaselistController {
+public class CasesController {
     private static Logger logger = LoggerFactory.getLogger(ClassificationController.class);
     @Autowired
-    ICaselistService caselistService;
+    ICasesService casesService;
 
     @PostMapping("insert/caselist")
-    public RespBean insertcaselist(@Valid @RequestBody Caselist caselist, BindingResult bindingResult){
+    public RespBean insertcaselist(@Valid @RequestBody Cases cases, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-        System.out.println("入参body"+caselist.getCaserequest());
+        System.out.println("入参body"+cases.getCaserequest());
 
-        JSONObject jsonObject = JSONObject.parseObject(caselist.getCaserequest());
+        JSONObject jsonObject = JSONObject.parseObject(cases.getCaserequest());
 
 //        jsonObject.put("code",300);
 //        System.out.println("变参数body："+jsonObject);
 //        caselist.setCaserequest(jsonObject.toString());
 
-        caselist.setCreatetime(LocalDateTime.now().plusHours(13));
-        caselistService.insertcase(caselist);
+        cases.setCreatetime(LocalDateTime.now().plusHours(13));
+        casesService.insertcase(cases);
         return RespBean.sucess("新增成功");
     }
     @PostMapping("update/caselist")
-    public RespBean updatecaselist(@Valid @RequestBody Caselist caselist,BindingResult bindingResult ){
+    public RespBean updatecaselist(@Valid @RequestBody Cases cases,BindingResult bindingResult ){
         if (bindingResult.hasErrors()){
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-        caselist.setUpdateTime(LocalDateTime.now().plusHours(13));
-        caselistService.updatecase(caselist);
+        cases.setUpdateTime(LocalDateTime.now().plusHours(13));
+        casesService.updatecase(cases);
         return RespBean.sucess("修改用例成功");
     }
     @PostMapping("select/caselist")
-    public RespBean selectcaselist(@RequestBody Caselist caselist){
-        List<Caselist> selectlist = caselistService.selectcase(caselist);
+    public RespBean selectcaselist(@RequestBody Cases cases){
+        List<Cases> selectlist = casesService.selectcase(cases);
         HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
-        objectObjectHashMap.put("caselist",selectlist);
+        objectObjectHashMap.put("cases",selectlist);
         return RespBean.sucess("查询成功",objectObjectHashMap);
     }
     @PostMapping("delete/caselist")
-    public RespBean deletecaselist(@RequestBody Caselist caselist){
-        caselistService.deletecase(caselist);
+    public RespBean deletecaselist(@RequestBody Cases cases){
+        casesService.deletecase(cases);
         return RespBean.sucess("删除用例成功");
     }
 
@@ -82,18 +82,18 @@ public class CaselistController {
         for (String i:str){
             list.add(Integer.parseInt(i));
         }
-        List<Caselist> groupcaselist = caselistService.selectgroupcase(list);
+        List<Cases> groupcaselist = casesService.selectgroupcase(list);
         HashMap<String, Object> caselistmap = new HashMap<>();
         caselistmap.put("groupcaselist",groupcaselist);
         return RespBean.sucess("查询成功",caselistmap);
     }
     @PostMapping("select/vaguecase")
-    public RespBean selectvaguecase(@RequestBody Caselist caselist){
-        String caseTitle = caselist.getCaseTitle();
+    public RespBean selectvaguecase(@RequestBody Cases cases){
+        String caseTitle = cases.getCaseTitle();
         if (caseTitle.isEmpty()){
             return RespBean.error("不能空查询case名称");
         }
-        List<Caselist> listbase = caselistService.selectvaguecase(caselist);
+        List<Cases> listbase = casesService.selectvaguecase(cases);
         HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
         objectObjectHashMap.put("listbase",listbase);
         return RespBean.sucess("查询成功",objectObjectHashMap);

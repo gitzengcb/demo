@@ -1,6 +1,7 @@
-package com.example.server.controller;
+package com.example.server.controller.bugcase;
 
 
+import com.example.server.controller.ClassificationController;
 import com.example.server.pojo.Buglist;
 import com.example.server.pojo.Groups;
 import com.example.server.publics.RespBean;

@@ -33,8 +33,6 @@ public class Sceneclassification implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer superiorid;
-
     @ApiModelProperty(value = "场景名称")
     @NotBlank(message = "场景名称不能为空")
     @Length(message = "长度不能超过{50}",max = 50)
@@ -44,7 +42,7 @@ public class Sceneclassification implements Serializable {
 
     private LocalDateTime updateTime;
 
-    private Boolean enabled;
+    private Integer isdelete;
     private String casegroup;
     private List<Sceneclassification> scene;
 
@@ -76,14 +74,6 @@ public class Sceneclassification implements Serializable {
         this.id = id;
     }
 
-    public Integer getSuperiorid() {
-        return superiorid;
-    }
-
-    public void setSuperiorid(Integer superiorid) {
-        this.superiorid = superiorid;
-    }
-
     public String getScenename() {
         return scenename;
     }
@@ -108,23 +98,22 @@ public class Sceneclassification implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public Integer getIsdelete() {
+        return isdelete;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setIsdelete(Integer isdelete) {
+        this.isdelete = isdelete;
     }
 
     @Override
     public String toString() {
         return "Sceneclassification{" +
                 "id=" + id +
-                ", superiorid=" + superiorid +
                 ", scenename='" + scenename + '\'' +
                 ", createtime=" + createtime +
                 ", updateTime=" + updateTime +
-                ", enabled=" + enabled +
+                ", isdetete=" + isdelete +
                 ", casegroup='" + casegroup + '\'' +
                 ", scene=" + scene +
                 '}';

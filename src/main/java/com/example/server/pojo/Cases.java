@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="Caselist对象", description="")
-public class Caselist implements Serializable {
+public class Cases implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,22 +38,19 @@ public class Caselist implements Serializable {
     @ApiModelProperty(value = "请求体")
     private String caserequest;
 
-    @ApiModelProperty(value = "入参变量名称，中间“,”连接")
-    private String inputParameter;
-
-    @ApiModelProperty(value = "取response中数据的key，中间“,”连接")
+    @ApiModelProperty(value = "取response中数据的key，中间“,”连接，如{'code':'data.code','massage':'data.massage'")
     private String outputParameter;
 
-    @ApiModelProperty(value = "header信息头")
-    private String header;
+    @ApiModelProperty(value = "header信息头，如{'code':'code','massage':'massage'}")
+    private String headers;
 
-    @ApiModelProperty(value = "断言变量")
+    @ApiModelProperty(value = "断言变量，取json路由，如code就取'data.code'")
     private String asserts;
 
     @ApiModelProperty(value = "断言结果")
     private String assertresult;
 
-    @ApiModelProperty(value = "变量key")
+    @ApiModelProperty(value = "接口的变量key，如'code,massage'")
     private String inputlist;
 
     private LocalDateTime createtime;
@@ -68,6 +65,33 @@ public class Caselist implements Serializable {
 
     @ApiModelProperty(value = "接口")
     private Interface face;
+    private Integer sceneid;
+    private Integer performtasksid;
+    private Boolean assertionresults;
+
+    public Boolean getAssertionresults() {
+        return assertionresults;
+    }
+
+    public void setAssertionresults(Boolean assertionresults) {
+        this.assertionresults = assertionresults;
+    }
+
+    public Integer getSceneid() {
+        return sceneid;
+    }
+
+    public void setSceneid(Integer sceneid) {
+        this.sceneid = sceneid;
+    }
+
+    public Integer getPerformtasksid() {
+        return performtasksid;
+    }
+
+    public void setPerformtasksid(Integer performtasksid) {
+        this.performtasksid = performtasksid;
+    }
 
     @Override
     public String toString() {
@@ -75,9 +99,8 @@ public class Caselist implements Serializable {
                 "id=" + id +
                 ", caseTitle='" + caseTitle + '\'' +
                 ", caserequest='" + caserequest + '\'' +
-                ", inputParameter='" + inputParameter + '\'' +
                 ", outputParameter='" + outputParameter + '\'' +
-                ", header='" + header + '\'' +
+                ", headers='" + headers + '\'' +
                 ", asserts='" + asserts + '\'' +
                 ", assertresult='" + assertresult + '\'' +
                 ", inputlist='" + inputlist + '\'' +
@@ -122,13 +145,6 @@ public class Caselist implements Serializable {
         this.caserequest = caserequest;
     }
 
-    public String getInputParameter() {
-        return inputParameter;
-    }
-
-    public void setInputParameter(String inputParameter) {
-        this.inputParameter = inputParameter;
-    }
 
     public String getOutputParameter() {
         return outputParameter;
@@ -138,12 +154,12 @@ public class Caselist implements Serializable {
         this.outputParameter = outputParameter;
     }
 
-    public String getHeader() {
-        return header;
+    public String getHeaders() {
+        return headers;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setHeaders(String headers) {
+        this.headers = headers;
     }
 
     public String getAsserts() {

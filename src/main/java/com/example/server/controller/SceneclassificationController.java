@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -63,16 +64,16 @@ public class SceneclassificationController {
         List<Sceneclassification> treeList=new ArrayList<Sceneclassification>();
 
         //组装数list
-        for (Sceneclassification vo :alllist) {
-            if (vo.getSuperiorid() == 0) {
-                vo.setScene(getChildrenNode(vo.getId(), alllist));
-                treeList.add(vo);
-            }
-        }
+//        for (Sceneclassification vo :alllist) {
+//            if (vo.getSuperiorid() == 0) {
+//                vo.setScene(getChildrenNode(vo.getId(), alllist));
+//                treeList.add(vo);
+//            }
+//        }
 
         HashMap<String, Object> objectObjectHashMap = new HashMap<>();
 
-        objectObjectHashMap.put("treeList", treeList);
+        objectObjectHashMap.put("alllist", alllist);
         return RespBean.sucess("查询成功", objectObjectHashMap);
     }
 
@@ -91,18 +92,18 @@ public class SceneclassificationController {
      * @return
      */
 
-    private List<Sceneclassification> getChildrenNode(Integer integer, List<Sceneclassification> treesList) {
-        List<Sceneclassification> newTrees = new ArrayList<Sceneclassification>();
-        for (Sceneclassification department : treesList) {
-            if (department.getSuperiorid() == 0) {
-                continue;
-            }
-            if (department.getSuperiorid() == integer) {
-                // 递归获取子节点下的子节点，即设置树控件中的children
-                department.setScene(getChildrenNode(department.getId(), treesList));
-                newTrees.add(department);
-            }
-        }
-        return newTrees;
-    }
+//    private List<Sceneclassification> getChildrenNode(Integer integer, List<Sceneclassification> treesList) {
+//        List<Sceneclassification> newTrees = new ArrayList<Sceneclassification>();
+//        for (Sceneclassification department : treesList) {
+//            if (department.getSuperiorid() == 0) {
+//                continue;
+//            }
+//            if (department.getSuperiorid() == integer) {
+//                // 递归获取子节点下的子节点，即设置树控件中的children
+//                department.setScene(getChildrenNode(department.getId(), treesList));
+//                newTrees.add(department);
+//            }
+//        }
+//        return newTrees;
+//    }
 }

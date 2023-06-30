@@ -22,6 +22,7 @@
     <update id="delete" parameterType="com.example.server.pojo.ParameterConfiguration" >
         update parameter_configuration set active=0 where id=#{id}
     </update>
+    <update id="update"></update>
 
 
 </mapper>

@@ -1,4 +1,4 @@
-package com.example.server.controller;
+package com.example.server.generator;
 
 import java.io.*;
 import java.net.HttpURLConnection;

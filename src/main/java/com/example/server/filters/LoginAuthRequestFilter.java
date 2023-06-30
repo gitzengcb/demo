@@ -2,7 +2,6 @@ package com.example.server.filters;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.server.constant.AuthorizationConstant;
-import com.example.server.constant.ServerHosts;
 import com.example.server.constant.UrlPath;
 import io.restassured.filter.FilterContext;
 import io.restassured.http.ContentType;
@@ -16,7 +15,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import static io.restassured.RestAssured.given;
-import com.example.server.controller.ReportController;
+import com.example.server.controller.LaunchTask;
 import static io.restassured.RestAssured.proxy;
 
 /**
@@ -62,19 +61,19 @@ public class LoginAuthRequestFilter implements AuthFilter {
         return ctx.next(requestSpec, responseSpec);
     }
     private FilterableRequestSpecification domainnames(FilterableRequestSpecification requestSpec){
-        if (!url.equals(ReportController.url)){
+        if (!url.equals(LaunchTask.url)){
             requestSpec.removeCookies();
 //            requestSpec.removeHeaders();
-            url=ReportController.url;
+            url= LaunchTask.url;
 
-            if (!ReportController.headersmap.isEmpty()){
-                requestSpec.headers(ReportController.headersmap);
+            if (!LaunchTask.headersmap.isEmpty()){
+                requestSpec.headers(LaunchTask.headersmap);
             }
 
             System.out.println("headers===="+requestSpec.getHeaders());
         } else {
-            if (!ReportController.headersmap.isEmpty()){
-                requestSpec.headers(ReportController.headersmap);
+            if (!LaunchTask.headersmap.isEmpty()){
+                requestSpec.headers(LaunchTask.headersmap);
             }
             System.out.println("域名不变");
         }

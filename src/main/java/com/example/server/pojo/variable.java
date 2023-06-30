@@ -9,23 +9,23 @@ import java.util.List;
 import java.util.Map;
 
 public class variable {
-    private Report report = new Report();
     private JSONObject jsonrequest =new JSONObject();
     private JSONObject jsonHeader =new JSONObject();
 //    private JSONObject jsonInputParameter =new JSONObject();
     private JSONObject jsonOutputParameter =new JSONObject();
     private JSONObject responsebody =new JSONObject();
+    private Testrecords testrecords=new Testrecords();
     private Failcase failcase=new Failcase();
     private List<Failcase> failcaselist=new ArrayList<>();
 //    private List<String> inputlist=new ArrayList<>();
 
 
-    public Report getReport() {
-        return report;
+    public Testrecords getTestrecords() {
+        return testrecords;
     }
 
-    public void setReport(Report report) {
-        this.report = report;
+    public void setTestrecords(Testrecords testrecords) {
+        this.testrecords = testrecords;
     }
 
     public JSONObject getJsonrequest() {
@@ -81,7 +81,6 @@ public class variable {
     @Override
     public String toString() {
         return "variable{" +
-                "report=" + report +
                 ", jsonrequest=" + jsonrequest +
                 ", jsonHeader=" + jsonHeader +
 //                ", jsonInputParameter=" + jsonInputParameter +

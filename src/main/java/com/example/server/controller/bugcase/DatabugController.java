@@ -1,4 +1,4 @@
-package com.example.server.controller;
+package com.example.server.controller.bugcase;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

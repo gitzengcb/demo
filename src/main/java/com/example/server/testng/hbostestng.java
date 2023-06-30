@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.equalTo;
 @SpringBootTest(classes = {Applocation.class, hbostestng.class})
 @Component
 public class hbostestng {
-    private static Logger logger = LoggerFactory.getLogger(demo.class);
+//    private static Logger logger = LoggerFactory.getLogger(demo.class);
 
     @BeforeSuite
     public void t1(){
@@ -78,10 +78,10 @@ public class hbostestng {
 
         boolean success = response.body().jsonPath().getBoolean("success");
         if (success){
-            logger.info("接口成功");
+//            logger.info("接口成功");
             System.out.println(success);
         }else {
-            logger.error("接口失败");
+//            logger.error("接口失败");
         }
 
 
