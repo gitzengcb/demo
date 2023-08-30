@@ -37,7 +37,7 @@ public class InterfaceController {
         if (bindingResult.hasErrors()){
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-        inputlist.setCreatetime(LocalDateTime.now().plusHours(14));
+        inputlist.setCreatetime(LocalDateTime.now());
         interfaceService.insertinter(inputlist);
         return RespBean.sucess("接口新增成功");
     }
@@ -46,7 +46,7 @@ public class InterfaceController {
         if (bindingResult.hasErrors()){
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-        inputlist.setUpdateTime(LocalDateTime.now().plusHours(14));
+        inputlist.setUpdateTime(LocalDateTime.now());
         interfaceService.updateinset(inputlist);
         return RespBean.sucess("编辑接口成功");
     }

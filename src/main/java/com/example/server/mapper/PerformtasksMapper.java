@@ -1,7 +1,7 @@
 package com.example.server.mapper;
 
-import com.example.server.pojo.Performtasks;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.server.pojo.Performtasks;
 
 import java.util.List;
 
@@ -21,4 +21,6 @@ public interface PerformtasksMapper extends BaseMapper<Performtasks> {
     List<Performtasks> select();
 
     int delete(Performtasks performtasks);
+
+    String selectscenegroup(Integer id);
 }

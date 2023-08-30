@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.mapper.TestrecordsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.server.pojo.Testrecords">
+        <id column="id" property="id" />
+        <result column="caseid" property="caseid" />
+        <result column="performtasksid" property="performtasksid" />
+        <result column="sceneid" property="sceneid" />
+        <result column="returnresults" property="returnresults" />
+        <result column="assertionresults" property="assertionresults" />
+        <result column="createtime" property="createtime" />
+        <result column="isdelete" property="isdelete" />
+        <result column="reportid" property="reportid"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, caseid, performtasksid, sceneid, returnresults, assertionresults, createtime, isdelete,reportid
+    </sql>
+    <select id="selectList" parameterType="integer" resultType="com.example.server.pojo.Testrecords">
+select * from testrecords where id={id}
+    </select>
+
+</mapper>

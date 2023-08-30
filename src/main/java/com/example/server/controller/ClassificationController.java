@@ -1,6 +1,7 @@
 package com.example.server.controller;
 
 
+import com.example.server.generator.TreeStructure;
 import com.example.server.pojo.Classification;
 import com.example.server.publics.RespBean;
 import com.example.server.service.IClassificationService;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 
 /**
  * <p>
@@ -40,7 +41,7 @@ public class ClassificationController {
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
 
-        inputlist.setCreatetime(LocalDateTime.now().plusHours(14));
+        inputlist.setCreatetime(LocalDateTime.now());
         classificationService.insertClass(inputlist);
         return RespBean.sucess("新增分类成功");
 
@@ -57,7 +58,7 @@ public class ClassificationController {
             return RespBean.error("父id不能为空");
         }
 
-        inputlist.setUpdatetime(LocalDateTime.now().plusHours(14));
+        inputlist.setUpdatetime(LocalDateTime.now());
         classificationService.updateClass(inputlist);
         return RespBean.sucess("修改分类成功");
     }
@@ -72,33 +73,20 @@ public class ClassificationController {
     @GetMapping("select/Classification")
     public RespBean selectClassification(){
         List<Classification> alllist = classificationService.selectClass();
-        List<Classification> trees = tree(alllist);
+
+        if (alllist.isEmpty()){
+            return RespBean.sucess("查询成功",null);
+        }
+
+        List<Classification> trees =new TreeStructure().tree(alllist);
         HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
+
         objectObjectHashMap.put("ClassList",trees);
+
         return RespBean.sucess("查询成功",objectObjectHashMap);
     }
 
-    private List<Classification> tree(List<Classification> alllist) {
-        List<Classification> listtree = new ArrayList<>();
-        for (Classification classification:alllist){
-            if (classification.getSuperiorid()==0){
-                classification.setClasslist(treelist(alllist,classification.getId()));
-                listtree.add(classification);
-            }
-        }
-        return listtree;
-    }
 
-    private List<Classification> treelist(List<Classification> alllist, Integer id) {
-        List<Classification> zitree = new ArrayList<>();
-        for (Classification ov:alllist){
-            if (ov.getSuperiorid().equals(id)){
-                ov.setClasslist(treelist(alllist,ov.getId()));
-                zitree.add(ov);
-            }
-        }
-        return zitree;
-    }
 
 
 }

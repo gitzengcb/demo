@@ -1,7 +1,7 @@
 package com.example.server.mapper;
 
-import com.example.server.pojo.Failcase;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.server.pojo.Failcase;
 
 import java.util.List;
 

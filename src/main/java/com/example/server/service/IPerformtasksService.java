@@ -1,7 +1,7 @@
 package com.example.server.service;
 
-import com.example.server.pojo.Performtasks;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.server.pojo.Performtasks;
 
 import java.util.List;
 
@@ -22,4 +22,6 @@ public interface IPerformtasksService extends IService<Performtasks> {
     List<Performtasks> selecttasks();
 
     int deletetasks(Performtasks performtasks);
+
+    String selectscenegroupid(Integer id);
 }

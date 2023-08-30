@@ -35,7 +35,7 @@ public class PerformtasksController {
         if (bindingResult.hasErrors()){
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-        performtasks.setCreatetime(LocalDateTime.now().plusHours(14));
+        performtasks.setCreatetime(LocalDateTime.now());
         int inserttasks = performtasksService.inserttasks(performtasks);
         if (inserttasks!=1) {
             return RespBean.error("新增任务失败");
@@ -47,7 +47,7 @@ public class PerformtasksController {
         if (bindingResult.hasErrors()){
             return RespBean.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
-        performtasks.setUpdateTime(LocalDateTime.now().plusHours(14));
+        performtasks.setUpdateTime(LocalDateTime.now());
         int updatetasks = performtasksService.updatetasks(performtasks);
         if (updatetasks!=1) {
             return RespBean.error("编辑任务失败");
@@ -66,6 +66,8 @@ public class PerformtasksController {
         performtasksService.deletetasks(performtasks);
         return RespBean.sucess("删除成功");
     }
+
+
 
 
 }

@@ -4,52 +4,39 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.example.server.pojo.Report">
-        <id column="id" property="id"/>
-        <result column="basesum" property="basesum"/>
-        <result column="successsum" property="successsum"/>
-        <result column="errorsum" property="errorsum"/>
-        <result column="sumcount" property="sumcount"/>
-        <result column="successfullist" property="successfullist"/>
-        <result column="failurelist" property="failurelist"/>
-        <result column="create_time" property="create_time"/>
-        <result column="active" property="active"/>
-        <collection property="failcase" column="" javaType="com.example.server.pojo.Failcase">
-            <id column="ids" property="id"/>
-            <result column="caseid" property="caseid"/>
-            <result column="performtasksid" property="performtasksid"/>
-            <result column="sceneid" property="sceneid"/>
-            <result column="errorlog" property="errorlog"/>
-            <result column="createtime" property="createtime"/>
-            <result column="enabled" property="enabled"/>
-            <result column="reportid" property="reportid"/>
-        </collection>
+        <id column="id" property="id" />
+        <result column="successsum" property="successsum" />
+        <result column="failsum" property="failsum" />
+        <result column="casesum" property="casesum" />
+        <result column="successnamelist" property="successnamelist" />
+        <result column="failurenamelist" property="failurenamelist" />
+        <result column="createtime" property="createtime" />
+        <result column="isdelete" property="isdelete" />
+        <result column="tasksname" property="tasksname" />
+        <result column="status" property="status" />
+        <result column="updatetime" property="updatetime" />
+        <result column="starttime" property="starttime" />
+        <result column="endtime" property="endtime" />
+        <result column="performtasksid" property="performtasksid"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , basesum, successsum, errorsum, sumcount, successfullist, failurelist, create_time, active
+        id, successsum, failsum, casesum, successnamelist, failurenamelist, createtime, isdelete, tasksname, status, updatetime, starttime, endtime,performtasksid
     </sql>
-    <!--    *获取主键id方法
-     useGeneratedKeys为true,用来设置返回主键id的值,-->
-    <!--    * keyProperty 代表数据库记录主键字段-->
-    <!--    * keyColumn 代表 java对象成员属性名-->
-    <insert id="insert" parameterType="com.example.server.pojo.Report" useGeneratedKeys="true" keyProperty="id"
-            keyColumn="id">
-        insert into report(basesum, successsum, errorsum, sumcount, successfullist, failurelist, create_time)
-        values (#{basesum}, #{successsum}, #{errorsum}, #{sumcount}, #{successfullist}, #{failurelist}, #{create_time})
+    <insert id="reportinsert" parameterType="com.example.server.pojo.Report">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id" >
+            select LAST_INSERT_ID() as id
+        </selectKey>
+        insert into report(casesum,createtime,tasksname,status,performtasksid)
+        values (#{casesum},#{createtime},#{tasksname},#{status},#{performtasksid})
     </insert>
-    <select id="selectByMap" parameterType="map" resultType="com.example.server.pojo.Report">
-        select * from report
-        <where>
-            <if test="starttime !=null">
-                create_time &gt;= #{starttime}
-            </if>
-            <if test="endtime !=null">
-                and create_time &lt;= #{endtime}
-            </if>
-        </where>
+    <select id="select" parameterType="int" resultType="com.example.server.pojo.Report">
+        select * from report where id=#{id} and isdelete=0
     </select>
-
+    <update id="update" parameterType="com.example.server.pojo.Report" >
+        update report set successsum=#{successsum},failsum=#{failsum},successnamelist=#{successnamelist},failurenamelist=#{failurenamelist},createtime=#{createtime},
+                          status=#{status},updatetime=#{updatetime},starttime=#{starttime},endtime=#{endtime} where id=#{id}
+    </update>
 
 </mapper>

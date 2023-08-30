@@ -39,7 +39,7 @@ public class LoginController {
             return null;
         }
         String username=principal.getName();
-        HashMap<String,CcUsernameInfos> hashMap = new HashMap();
+        HashMap<String, CcUsernameInfos> hashMap = new HashMap();
         System.out.println("查询用户名："+username);
         CcUsernameInfos ccUsernameInfos=ccUsernameInfosService.getAdminByUserName(username);
         ccUsernameInfos.setPassword(null);

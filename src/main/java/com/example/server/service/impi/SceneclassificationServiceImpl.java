@@ -1,9 +1,9 @@
 package com.example.server.service.impi;
 
-import com.example.server.pojo.Sceneclassification;
-import com.example.server.mapper.SceneclassificationMapper;
-import com.example.server.service.ISceneclassificationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.server.mapper.SceneclassificationMapper;
+import com.example.server.pojo.Sceneclassification;
+import com.example.server.service.ISceneclassificationService;
 import org.springframework.context.annotation.Description;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +49,7 @@ public class SceneclassificationServiceImpl extends ServiceImpl<Sceneclassificat
     }
     @Description("根据场景id查询")
     @Override
-    public Sceneclassification scenestart(int id){
+    public Sceneclassification selectscenelist(int id){
         return sceneclassificationMapper.scenestart(id);
     }
 }

@@ -3,136 +3,199 @@ package com.example.server.pojo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import groovy.transform.EqualsAndHashCode;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author zengchengbing
- * @since 2021-12-28
+ * @since 2023-06-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="Report对象", description="")
-public class Report{
+public class Report implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-    private Integer basesum=0;
-    private Integer successsum=0;
-    private Integer errorsum=0;
-    private Integer sumcount=0;
-    private String successfullist;
-    private String failurelist;
-    @TableField("create_time")
-    private LocalDateTime create_time;
-    private Boolean active=true;
-    private List<Failcase> failcaselist;
 
-    public void setFailcaselist(List<Failcase> failcaselist) {
-        this.failcaselist = failcaselist;
+    private Integer successsum;
+
+    @ApiModelProperty(value = "失败case总量")
+    private Integer failsum;
+
+    @ApiModelProperty(value = "case总量")
+    private Integer casesum;
+
+    @ApiModelProperty(value = "成功用例名称集合")
+    private String successnamelist;
+
+    @ApiModelProperty(value = "失败用例名称集合")
+    private String failurenamelist;
+
+    private LocalDateTime createtime;
+
+    private Integer isdelete;
+
+    @ApiModelProperty(value = "任务名称")
+    private String tasksname;
+
+    @ApiModelProperty(value = "执行状态：0创建任务，1任务执行中，2任务结束")
+    private Integer status;
+
+    private LocalDateTime updatetime;
+
+    private LocalDateTime starttime;
+
+    private LocalDateTime endtime;
+
+    private Integer performtasksid;
+
+    public Integer getPerformtasksid() {
+        return performtasksid;
     }
 
-    public List<Failcase> getFailcaselist() {
-        return failcaselist;
+    public void setPerformtasksid(Integer performtasksid) {
+        this.performtasksid = performtasksid;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public Integer getBasesum() {
-        return basesum;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getSuccesssum() {
         return successsum;
     }
 
-    public Integer getErrorsum() {
-        return errorsum;
-    }
-
-    public Integer getSumcount() {
-        return sumcount;
-    }
-
-    public String getSuccessfullist() {
-        return successfullist;
-    }
-
-    public String getFailurelist() {
-        return failurelist;
-    }
-
-    public LocalDateTime getCreate_time() {
-        return create_time;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setBasesum(Integer basesum) {
-        this.basesum = basesum;
-    }
-
     public void setSuccesssum(Integer successsum) {
         this.successsum = successsum;
     }
 
-    public void setErrorsum(Integer errorsum) {
-        this.errorsum = errorsum;
+    public Integer getFailsum() {
+        return failsum;
     }
 
-    public void setSumcount(Integer sumcount) {
-        this.sumcount = sumcount;
+    public void setFailsum(Integer failsum) {
+        this.failsum = failsum;
     }
 
-    public void setSuccessfullist(String successfullist) {
-        this.successfullist = successfullist;
+    public Integer getCasesum() {
+        return casesum;
     }
 
-    public void setFailurelist(String failurelist) {
-        this.failurelist = failurelist;
+    public void setCasesum(Integer casesum) {
+        this.casesum = casesum;
     }
 
-    public void setCreate_time(LocalDateTime create_time) {
-        this.create_time = create_time;
+    public String getSuccessnamelist() {
+        return successnamelist;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setSuccessnamelist(String successnamelist) {
+        this.successnamelist = successnamelist;
+    }
+
+    public String getFailurenamelist() {
+        return failurenamelist;
+    }
+
+    public void setFailurenamelist(String failurenamelist) {
+        this.failurenamelist = failurenamelist;
+    }
+
+    public LocalDateTime getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(LocalDateTime createtime) {
+        this.createtime = createtime;
+    }
+
+    public Integer getIsdelete() {
+        return isdelete;
+    }
+
+    public void setIsdelete(Integer isdelete) {
+        this.isdelete = isdelete;
+    }
+
+    public String getTasksname() {
+        return tasksname;
+    }
+
+    public void setTasksname(String tasksname) {
+        this.tasksname = tasksname;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(LocalDateTime updatetime) {
+        this.updatetime = updatetime;
+    }
+
+    public LocalDateTime getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(LocalDateTime starttime) {
+        this.starttime = starttime;
+    }
+
+    public LocalDateTime getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(LocalDateTime endtime) {
+        this.endtime = endtime;
     }
 
     @Override
     public String toString() {
         return "Report{" +
                 "id=" + id +
-                ", basesum=" + basesum +
                 ", successsum=" + successsum +
-                ", errorsum=" + errorsum +
-                ", sumcount=" + sumcount +
-                ", successfullist='" + successfullist + '\'' +
-                ", failurelist='" + failurelist + '\'' +
-                ", create_time=" + create_time +
-                ", active=" + active +
-                ", failcaselist=" + failcaselist +
+                ", failsum=" + failsum +
+                ", casesum=" + casesum +
+                ", successnamelist='" + successnamelist + '\'' +
+                ", failurenamelist='" + failurenamelist + '\'' +
+                ", createtime=" + createtime +
+                ", isdelete=" + isdelete +
+                ", tasksname='" + tasksname + '\'' +
+                ", status=" + status +
+                ", updateTime=" + updatetime +
+                ", startTime=" + starttime +
+                ", endTime=" + endtime +
+                ",performtasksid"+performtasksid+
                 '}';
     }
 }

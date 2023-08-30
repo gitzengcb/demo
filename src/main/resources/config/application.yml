@@ -3,11 +3,14 @@ server:
 
 
 spring:
+  jackson:
+    time-zone=Asia/Shanghai:
   datasource:
-    url: jdbc:mysql://47.101.191.102:3306/helloinfo?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://localhost:3306/ccb?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: zeng&123aA
+    password: 123456aa
     hikari:
       pool-name: DateHihaiCP
       idle-timeout: 10000000
@@ -19,6 +22,7 @@ spring:
       maximum-pool-size: 20
   main:
     allow-circular-references: true
+  jdbcType: DATE
   redis:
     #超时时间
     timeout: 100000ms
@@ -63,5 +67,7 @@ testng:
 hbos:
   host: http://hbos-test.cfuture.shop/
   hostst: hbos-test.cfuture.shop
-  user: hszy
+  user: fyhl001
   password: 123456
+
+publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDXaFoMlA3ctUguD0rLbbFVqbajvlBH5jSWaZl7re+Xqp7BvoRwc5HOWGwtNvkUlv3WNIAw/YlUgWIz5r0fV6N8KHqSnV0CIpy7OJW67H1tVQ9Fbt4ZVx9RSJ378IBqN4ucacw2OuqA29I5AS9EhLCJWIXljPNNACmubPiv5mcn6wIDAQAB

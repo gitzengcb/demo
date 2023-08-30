@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -17,24 +16,31 @@ import java.util.Map;
  * </p>
  *
  * @author zengchengbing
- * @since 2021-12-28
+ * @since 2023-06-08
  */
 @Service
 public class ReportServiceImpl extends ServiceImpl<ReportMapper, Report> implements IReportService {
     @Resource
-    private ReportMapper reportMapper;
+    public ReportMapper reportMapper;
 
-    @Description("新增报告数据")
+    @Description("新增报告")
     @Override
-    public int insertreport(Report report) {
-        return reportMapper.insert(report);
+    public void reportinsert(Report report){
+        reportMapper.reportinsert(report);
+    }
+
+    @Description("查询报告")
+    @Override
+    public Report selectport(Integer id){
+        return reportMapper.select(id);
+    }
+
+    @Description("执行中变更报告")
+    @Override
+    public void update(Report report){
+        reportMapper.update(report);
     }
 
 
-    @Description("查询报告数据")
-    @Override
-    public List<Report> selectreportlist(Map map) {
-        return reportMapper.selectByMap(map);
-    }
 
 }

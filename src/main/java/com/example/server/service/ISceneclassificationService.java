@@ -1,7 +1,7 @@
 package com.example.server.service;
 
-import com.example.server.pojo.Sceneclassification;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.server.pojo.Sceneclassification;
 
 import java.util.List;
 
@@ -25,5 +25,5 @@ public interface ISceneclassificationService extends IService<Sceneclassificatio
 
     int addcase(Sceneclassification sceneclassification);
 
-    Sceneclassification scenestart(int parseInt);
+    Sceneclassification selectscenelist(int parseInt);
 }

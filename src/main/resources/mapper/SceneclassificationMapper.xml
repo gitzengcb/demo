@@ -5,37 +5,37 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.example.server.pojo.Sceneclassification">
         <id column="id" property="id" />
-        <result column="superiorid" property="superiorid" />
         <result column="scenename" property="scenename" />
         <result column="createtime" property="createtime" />
         <result column="updateTime" property="updateTime" />
-        <result column="enabled" property="enabled" />
+        <result column="isdelete" property="isdelete" />
+        <result column="casegroup" property="casegroup"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, superiorid, scenename, createtime, updateTime, enabled,casegroup
+        id, scenename, createtime, updateTime, isdelete,casegroup
     </sql>
     <insert id="insert" parameterType="com.example.server.pojo.Sceneclassification">
-        insert into sceneclassification (superiorid,scenename,createtime)
-         values(#{superiorid},#{scenename},#{createtime})
+        insert into sceneclassification (scenename,createtime,casegroup)
+         values(#{scenename},#{createtime},#{casegroup})
     </insert>
     <update id="update" parameterType="com.example.server.pojo.Sceneclassification">
-        update sceneclassification set superiorid=#{superiorid},scenename=#{scenename},updateTime=#{updateTime}
+        update sceneclassification set scenename=#{scenename},casegroup=#{casegroup},updateTime=#{updateTime}
         where id=#{id}
     </update>
     <update id="delete" parameterType="com.example.server.pojo.Sceneclassification">
-        update sceneclassification set enabled=false where id=#{id} and casegroup=null
+        update sceneclassification set isdelete=1 where id=#{id}
     </update>
     <select id="select" parameterType="com.example.server.pojo.Sceneclassification" resultType="com.example.server.pojo.Sceneclassification">
-        select * from sceneclassification where enabled=true
+        select * from sceneclassification where isdelete=0
     </select>
     <update id="addcase" parameterType="com.example.server.pojo.Sceneclassification">
         update sceneclassification set casegroup=#{casegroup} where id=#{id}
     </update>
 
     <select id="scenestart" parameterType="int" resultType="com.example.server.pojo.Sceneclassification">
-        select * from sceneclassification where id=#{id} and enabled=true
+        select * from sceneclassification where id=#{id} and isdelete=0
     </select>
 
 </mapper>

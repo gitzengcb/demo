@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.mapper.CasesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.server.pojo.Cases">
+        <id column="id" property="id"/>
+        <result column="caseTitle" property="caseTitle"/>
+        <result column="caserequest" property="caserequest"/>
+        <result column="outputParameter" property="outputParameter"/>
+        <result column="headers" property="headers"/>
+        <result column="asserts" property="asserts"/>
+        <result column="assertresult" property="assertresult"/>
+        <result column="createtime" property="createtime"/>
+        <result column="updatetime" property="updatetime"/>
+        <!--        <result column="enabled" property="enabled"/>-->
+        <result column="interfaceid" property="interfaceid"/>
+        <result column="asserttype" property="asserttype"/>
+        <result column="inputlist" property="inputlist"/>
+        <association property="face" column="interfaceid" javaType="com.example.server.pojo.Interface">
+            <id column="ids" property="id"/>
+            <result column="classificationid" property="classificationid"/>
+            <result column="interfaceName" property="interfaceName"/>
+            <result column="interfaceUrl" property="interfaceUrl"/>
+            <result column="method" property="method"/>
+            <result column='domainname' property="domainname"/>
+            <!--            <result column="createtime" property="createtime" />-->
+            <!--            <result column="updateTime" property="updateTime" />-->
+            <!--            <result column="enabled" property="enabled" />-->
+        </association>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id , caseTitle, caserequest, outputParameter, headers, asserts, assertresult, createtime, updatetime, isdelete,interfaceid,asserttype,inputlist
+    </sql>
+    <insert id="insert" parameterType="com.example.server.pojo.Cases">
+        insert into cases (caseTitle, caserequest,outputParameter,headers, asserts, assertresult, createtime, interfaceid, asserttype,inputlist)
+        values (#{caseTitle}, #{caserequest},#{outputParameter},#{headers}, #{asserts}, #{assertresult}, #{createtime}, #{interfaceid}, #{asserttype},#{inputlist})
+    </insert>
+    <update id="update" parameterType="com.example.server.pojo.Cases">
+        update cases
+        set caseTitle=#{caseTitle},
+            caserequest=#{caserequest},
+            outputParameter=#{outputParameter},
+            headers=#{headers},
+            asserts=#{asserts},
+            assertresult=#{assertresult},
+            updatetime=#{updatetime},
+            interfaceid=#{interfaceid},
+            asserttype=#{asserttype},
+            inputlist=#{inputlist}
+        where id = #{id}
+    </update>
+    <select id="select" parameterType="com.example.server.pojo.Cases" resultType="com.example.server.pojo.Cases">
+        select *
+        from cases
+        where interfaceid = #{interfaceid}
+          and isdelete = 0
+    </select>
+    <update id="delete" parameterType="com.example.server.pojo.Cases">
+        update cases
+        set isdelete= 1
+        where id = #{id}
+    </update>
+    <select id="groupcase" parameterType="list" resultType="com.example.server.pojo.Cases">
+        select * from cases
+        <where>
+            <foreach collection="id" open="id in(" close=")" item="ids" separator=",">
+                #{ids}
+            </foreach>
+        </where>
+    </select>
+    <select id="vaguecase" parameterType="com.example.server.pojo.Cases"
+            resultType="com.example.server.pojo.Cases">
+        select *
+        from cases
+        where caseTitle like concat('%', #{caseTitle,jdbcType=VARCHAR}, '%')
+          and isdelete = 0
+    </select>
+
+    <select id="casestart" parameterType="integer"  resultMap="BaseResultMap">
+        select a.id,
+               a.caseTitle,
+               a.caserequest,
+               a.outputParameter,
+               a.headers,
+               a.asserts,
+               a.assertresult,
+               a.interfaceid,
+               a.asserttype,
+               a.inputlist,
+               a.createtime,
+               a.updatetime,
+               b.id ids,
+               b.classificationid,
+               b.interfaceName,
+               b.interfaceUrl,
+               b.method,
+               b.domainname
+
+        from cases a join interface b on a.interfaceid = b.id
+        <where>
+<!--            <foreach collection="id" open="a.id in(" close=")" item="id" separator=",">-->
+<!--                #{id}-->
+<!--            </foreach>-->
+            a.id=#{id} and a.isdelete = 0
+        </where>
+    </select>
+</mapper>
+<!--<where>-->
+<!--<foreach collection="id" open="a.id in(" close=")" item="ids" separator=",">-->
+<!--    #{ids}-->
+<!--</foreach>-->
+<!--and a.enabled = true-->
+<!--</where>-->

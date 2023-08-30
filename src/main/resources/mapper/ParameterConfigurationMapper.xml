@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.mapper.ParameterConfigurationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.server.pojo.ParameterConfiguration">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="hosturl" property="hosturl" />
+        <result column="createtime" property="createtime" />
+        <result column="active" property="active" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, password, hosturl, createtime, active
+    </sql>
+    <select id="select"  resultType="com.example.server.pojo.ParameterConfiguration">
+        select * from parameter_configuration
+    </select>
+    <update id="delete" parameterType="com.example.server.pojo.ParameterConfiguration" >
+        update parameter_configuration set active=0 where id=#{id}
+    </update>
+    <update id="update"></update>
+
+
+</mapper>

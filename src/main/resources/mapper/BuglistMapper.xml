@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.server.mapper.BuglistMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.server.pojo.Buglist">
+        <id column="id" property="id"/>
+        <result column="bugtitle" property="bugtitle"/>
+        <result column="bugdescribe" property="bugdescribe"/>
+        <result column="groupsid" property="groupsid"/>
+        <result column="priorityid" property="priorityid"/>
+        <result column="stateid" property="stateid"/>
+        <result column="bugtypeid" property="bugtypeid"/>
+        <result column="labelid" property="labelid"/>
+        <result column="createtime" property="createtime"/>
+        <result column="updatetime" property="updatetime"/>
+        <result column="active" property="active"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , bugtitle, bugdescribe, groupsid, priorityid, stateid, bugtypeid, labelid, createtime, updatetime, active
+    </sql>
+    <insert id="insert" parameterType="com.example.server.pojo.Buglist">
+        <selectKey keyColumn="id" keyProperty="id" resultType="int" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into buglist(bugtitle, bugdescribe, groupsid, priorityid, stateid, bugtypeid, labelid, createtime) values
+        (#{bugtitle}, #{bugdescribe}, #{groupsid}, #{priorityid}, #{stateid}, #{bugtypeid},
+        #{labelid}, #{createtime})
+    </insert>
+    <update id="update" parameterType="com.example.server.pojo.Buglist">
+        update buglist
+        set bugtitle=#{bugtitle},
+            bugdescribe = #{bugdescribe},
+            groupsid = #{groupsid},
+            priorityid = #{priorityid},
+            stateid = #{stateid},
+            bugtypeid = #{bugtypeid},
+            labelid = #{labelid},
+            updatetime = #{updatetime}
+        where id = #{id}
+    </update>
+
+    <select id="select" resultType="com.example.server.pojo.Buglist" parameterType="map">
+        select * from buglist
+        <where>
+            <if test="bugtitle !=null">
+                bugtitle like '%${bugtitle}%'
+            </if>
+            <if test="priorityidlist.size()>0">
+                <foreach collection="priorityidlist" open="and priorityid in(" close=")" item="priorityid" separator=",">
+                    #{priorityid}
+                </foreach>
+            </if>
+            <if test="stateidlist.size()>0">
+                <foreach collection="stateidlist" open="and stateid in(" close=")" item="stateid" separator=",">
+                    #{stateid}
+                </foreach>
+            </if>
+            <if test="bugtypeidlist.size()>0">
+                <foreach collection="bugtypeidlist" open="and bugtypeid in(" close=")" item="bugtypeid" separator=",">
+                    #{bugtypeid}
+                </foreach>
+            </if>
+            <if test="labelidlist.size()>0">
+                <foreach collection="labelidlist" open="and labelid in(" close=")" item="labelid" separator=",">
+                    #{labelid}
+                </foreach>
+            </if>
+            <foreach collection="listid" open="and groupsid in(" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+                order by id desc limit #{start},#{size}
+        </where>
+    </select>
+
+</mapper>

@@ -1,9 +1,9 @@
 package com.example.server.service.impi;
 
-import com.example.server.pojo.Performtasks;
-import com.example.server.mapper.PerformtasksMapper;
-import com.example.server.service.IPerformtasksService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.server.mapper.PerformtasksMapper;
+import com.example.server.pojo.Performtasks;
+import com.example.server.service.IPerformtasksService;
 import org.springframework.context.annotation.Description;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +42,10 @@ public class PerformtasksServiceImpl extends ServiceImpl<PerformtasksMapper, Per
     @Override
     public int deletetasks(Performtasks performtasks){
         return performtasksMapper.delete(performtasks);
+    }
+    @Description("查询任务下场景")
+    @Override
+    public String selectscenegroupid(Integer id){
+        return performtasksMapper.selectscenegroup(id);
     }
 }

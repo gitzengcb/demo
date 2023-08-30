@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -31,7 +30,7 @@ public class Performtasks implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-    @NotBlank(message = "任务名称不能为空")
+//    @NotBlank(message = "任务名称不能为空")
     @Length(message = "任务名称长度不能超过50字符",max = 50)
     @ApiModelProperty(value = "执行任务名称")
     private String tasksname;
@@ -41,9 +40,37 @@ public class Performtasks implements Serializable {
 
     private LocalDateTime createtime;
 
-    private LocalDateTime updateTime;
+    private LocalDateTime updatetime;
 
-    private Boolean enabled;
+    private Integer isdelete;
+
+    private String username;
+    private String password;
+    private String hosturl;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getHosturl() {
+        return hosturl;
+    }
+
+    public void setHosturl(String hosturl) {
+        this.hosturl = hosturl;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -82,19 +109,19 @@ public class Performtasks implements Serializable {
     }
 
     public LocalDateTime getUpdateTime() {
-        return updateTime;
+        return updatetime;
     }
 
     public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
+        this.updatetime = updateTime;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public Integer getIsdelete() {
+        return isdelete;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setIsdelete(Integer isdelete) {
+        this.isdelete = isdelete;
     }
 
     @Override
@@ -104,8 +131,11 @@ public class Performtasks implements Serializable {
                 ", tasksname='" + tasksname + '\'' +
                 ", scenegroupid='" + scenegroupid + '\'' +
                 ", createtime=" + createtime +
-                ", updateTime=" + updateTime +
-                ", enabled=" + enabled +
+                ", updateTime=" + updatetime +
+                ", isdelete=" + isdelete +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", hosturl='" + hosturl + '\'' +
                 '}';
     }
 }

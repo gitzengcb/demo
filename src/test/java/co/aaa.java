@@ -3,6 +3,7 @@ package co;
 import com.example.server.utils.RestAssuredUtil;
 import io.restassured.response.Response;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,16 @@ import static io.restassured.RestAssured.given;
 
 public class aaa {
     public static void main(String[] args) throws Exception {
+        System.out.println(LocalDateTime.now());
+//        try {
+//            byte a=34;
+//            byte b=34;
+//            byte c= (byte) (a*b);
+//
+//        }catch (Exception e){
+//            System.out.println(e.toString());
+//            System.out.println(e.getMessage());
+//        }
 
 //        Long timestamp = System.currentTimeMillis();
 //        String secret = "this is secret";
@@ -41,20 +52,20 @@ public class aaa {
 //        String print = response.body().print();
 //        System.out.println(print);
 
-        Map<String, Object> requestmap = new HashMap<>();
-        String url="http://hbos-test.cfuture.shop/nurse/doctor-order-execute";
-        requestmap.put("identity","rescue");
-        requestmap.put("menuId",10532);
-        Response response=
-                given()
-                        .params(requestmap)
-                        .when()
-                        .get(url)
-                        .then()
-//                .body(caselist.getAsserts(),equalTo(caselist.getAssertresult()))
-                        .spec(RestAssuredUtil.getDefaultResponseSpecification())
-                        .extract().response();
-        System.out.println(response.body().print());
+//        Map<String, Object> requestmap = new HashMap<>();
+//        String url="http://hbos-test.cfuture.shop/nurse/doctor-order-execute";
+//        requestmap.put("identity","rescue");
+//        requestmap.put("menuId",10532);
+//        Response response=
+//                given()
+//                        .params(requestmap)
+//                        .when()
+//                        .get(url)
+//                        .then()
+////                .body(caselist.getAsserts(),equalTo(caselist.getAssertresult()))
+//                        .spec(RestAssuredUtil.getDefaultResponseSpecification())
+//                        .extract().response();
+//        System.out.println(response.body().print());
 
     }
 }

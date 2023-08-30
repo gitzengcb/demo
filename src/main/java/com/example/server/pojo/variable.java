@@ -6,21 +6,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class variable {
-    private Report report = new Report();
     private JSONObject jsonrequest =new JSONObject();
     private JSONObject jsonHeader =new JSONObject();
-    private JSONObject jsonInputParameter =new JSONObject();
+//    private JSONObject jsonInputParameter =new JSONObject();
     private JSONObject jsonOutputParameter =new JSONObject();
     private JSONObject responsebody =new JSONObject();
+    private Testrecords testrecords=new Testrecords();
     private Failcase failcase=new Failcase();
     private List<Failcase> failcaselist=new ArrayList<>();
+//    private List<String> inputlist=new ArrayList<>();
 
-    public Report getReport() {
-        return report;
+
+    public Testrecords getTestrecords() {
+        return testrecords;
     }
 
-    public void setReport(Report report) {
-        this.report = report;
+    public void setTestrecords(Testrecords testrecords) {
+        this.testrecords = testrecords;
     }
 
     public JSONObject getJsonrequest() {
@@ -39,13 +41,6 @@ public class variable {
         this.jsonHeader = jsonHeader;
     }
 
-    public JSONObject getJsonInputParameter() {
-        return jsonInputParameter;
-    }
-
-    public void setJsonInputParameter(JSONObject jsonInputParameter) {
-        this.jsonInputParameter = jsonInputParameter;
-    }
 
     public JSONObject getJsonOutputParameter() {
         return jsonOutputParameter;
@@ -79,17 +74,18 @@ public class variable {
         this.failcaselist = failcaselist;
     }
 
+
     @Override
     public String toString() {
         return "variable{" +
-                "report=" + report +
                 ", jsonrequest=" + jsonrequest +
                 ", jsonHeader=" + jsonHeader +
-                ", jsonInputParameter=" + jsonInputParameter +
+//                ", jsonInputParameter=" + jsonInputParameter +
                 ", jsonOutputParameter=" + jsonOutputParameter +
                 ", responsebody=" + responsebody +
                 ", failcase=" + failcase +
                 ", failcaselist=" + failcaselist +
+//                ", inputlist=" + inputlist +
                 '}';
     }
 }

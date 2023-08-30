@@ -1,9 +1,9 @@
 package com.example.server.service.impi;
 
-import com.example.server.pojo.Failcase;
-import com.example.server.mapper.FailcaseMapper;
-import com.example.server.service.IFailcaseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.server.mapper.FailcaseMapper;
+import com.example.server.pojo.Failcase;
+import com.example.server.service.IFailcaseService;
 import org.springframework.context.annotation.Description;
 import org.springframework.stereotype.Service;
 
